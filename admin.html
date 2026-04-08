@@ -1083,3 +1083,16 @@ window.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
+async function agregarJugador() {
+  const nombre = document.getElementById("nombre").value;
+  const puntos = document.getElementById("puntos").value;
+
+  await db.collection("ranking_mvp").add({
+    nombre: nombre,
+    puntos: Number(puntos),
+    categoria: "elite",
+    genero: "masculino"
+  });
+
+  alert("Jugador añadido 🔥");
+}
