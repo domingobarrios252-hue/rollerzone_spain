@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>RollerZone Admin</title>
+<style>
+:root{
+  --bg:#141414;--bg2:#1c1c1c;--bg3:#242424;--bg4:#2e2e2e;
+  --acc:#f5a623;--acc2:#e8891a;--acd:#2d1f00;
+  --txt:#f0ece4;--txt2:#a09890;--txt3:#5a5450;
+  --brd:#2e2b28;--brd2:#3e3b38;
+  --ok:#1d9e75;--err:#c0392b;--info:#185fa5;
+  --fem:#7a2348;--masc:#0f3d6e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+
+/* ── LOGIN ── */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.login-box{background:var(--bg2);border:1px solid var(--brd2);border-radius:16px;padding:2.5rem;width:380px;max-width:95vw}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
+.lbox{width:44px;height:44px;background:var(--acc);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#1a1200}
+.login-box h1{font-size:20px;font-weight:500;color:var(--txt)}
+.login-box p{font-size:12.5px;color:var(--txt3);margin-top:3px}
+.field{margin-top:1.25rem}
+.field label{font-size:11.5px;color:var(--txt2);display:block;margin-bottom:5px;font-weight:500}
+.field input{width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:8px;padding:9px 12px;color:var(--txt);font-size:13.5px;outline:none;transition:border-color .15s}
+.field input:focus{border-color:var(--acc)}
+.field small{font-size:11px;color:var(--txt3);margin-top:4px;display:block}
+.btn-login{width:100%;margin-top:1.5rem;background:var(--acc);color:#1a1200;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-login:hover{background:var(--acc2)}
+.login-note{margin-top:1rem;background:var(--acd);border:1px solid #5a3a00;border-radius:8px;padding:.85rem;font-size:11.5px;color:#d4a030;line-height:1.6}
+.login-note a{color:var(--acc);text-decoration:none}
+
+/* ── SHELL ── */
+#app{display:none;min-height:100vh}
+.topbar{background:#0e0e0e;border-bottom:1px solid var(--brd);padding:0 1.5rem;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.top-logo{display:flex;align-items:center;gap:9px}
+.top-logo .lbox{width:32px;height:32px;font-size:12px;border-radius:7px}
+.top-logo span{font-size:15px;font-weight:500;color:var(--txt)}
+.top-logo em{color:var(--acc);font-style:normal}
+.top-right{display:flex;align-items:center;gap:10px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.status-txt{font-size:12px;color:var(--txt2)}
+.btn-logout{background:transparent;border:1px solid var(--brd2);color:var(--txt2);border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer;transition:all .15s}
+.btn-logout:hover{border-color:var(--err);color:var(--err)}
+
+.layout{display:flex;min-height:calc(100vh - 54px)}
+
+/* ── SIDEBAR ── */
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--brd);padding:1rem 0;flex-shrink:0}
+.sb-section{font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;padding:.5rem 1.25rem .35rem}
+.sb-item{display:flex;align-items:center;gap:9px;padding:.55rem 1.25rem;cursor:pointer;transition:all .12s;font-size:13px;color:var(--txt2);border-left:3px solid transparent}
+.sb-item:hover{background:var(--bg3);color:var(--txt)}
+.sb-item.active{background:var(--bg3);color:var(--acc);border-left-color:var(--acc)}
+.sb-icon{width:16px;height:16px;flex-shrink:0;opacity:.7}
+.sb-item.active .sb-icon{opacity:1}
+.sb-badge{margin-left:auto;background:var(--acc);color:#1a1200;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px}
+
+/* ── MAIN ── */
+.main{flex:1;padding:1.5rem;overflow-y:auto}
+.panel{display:none}.panel.on{display:block}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+.panel-title{font-size:18px;font-weight:500;color:var(--txt)}
+.panel-sub{font-size:12px;color:var(--txt3);margin-top:2px}
+
+/* ── BOTONES ── */
+.btn{padding:7px 16px;border-radius:7px;font-size:13px;cursor:pointer;border:none;font-weight:500;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--acc);color:#1a1200}.btn-primary:hover{background:var(--acc2)}
+.btn-danger{background:var(--err);color:#fff}.btn-danger:hover{background:#a93226}
+.btn-ghost{background:transparent;border:1px solid var(--brd2);color:var(--txt2)}.btn-ghost:hover{border-color:var(--acc);color:var(--acc)}
+.btn-ok{background:var(--ok);color:#fff}.btn-ok:hover{background:#178a63}
+.btn-sm{padding:4px 10px;font-size:11.5px;border-radius:5px}
+
+/* ── CARDS ── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.item-card{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.item-card-head{padding:.85rem 1rem;display:flex;align-items:flex-start;gap:.75rem;border-bottom:1px solid var(--brd)}
+.item-card-body{padding:.85rem 1rem;font-size:12.5px;color:var(--txt2);line-height:1.6}
+.item-card-foot{padding:.65rem 1rem;border-top:1px solid var(--brd);display:flex;gap:6px;justify-content:flex-end;background:var(--bg3)}
+.item-av{width:38px;height:38px;border-radius:8px;background:var(--acd);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:var(--acc);flex-shrink:0;overflow:hidden}
+.item-av img{width:100%;height:100%;object-fit:cover}
+.item-title{font-size:14px;font-weight:500;color:var(--txt)}
+.item-meta{font-size:11.5px;color:var(--txt3);margin-top:2px}
+
+/* ── FORMULARIOS ── */
+.form-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
+.form-overlay.on{display:flex}
+.form-box{background:var(--bg2);border:1px solid var(--brd2);border-radius:14px;width:600px;max-width:100%;max-height:90vh;overflow-y:auto}
+.form-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1}
+.form-head h3{font-size:16px;font-weight:500;color:var(--txt)}
+.form-close{background:transparent;border:none;color:var(--txt3);font-size:20px;cursor:pointer;padding:2px 6px;border-radius:4px;transition:color .15s}
+.form-close:hover{color:var(--txt)}
+.form-body{padding:1.25rem 1.5rem;display:flex;flex-direction:column;gap:1rem}
+.form-foot{padding:1rem 1.5rem;border-top:1px solid var(--brd);display:flex;gap:8px;justify-content:flex-end;background:var(--bg3);border-radius:0 0 14px 14px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.f-full{grid-column:1/-1}
+.f-group label{font-size:11.5px;color:var(--txt2);display:block;margin-bottom:4px;font-weight:500}
+.f-group input,.f-group select,.f-group textarea{width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:7px;padding:8px 10px;color:var(--txt);font-size:13px;outline:none;transition:border-color .15s;font-family:inherit}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{border-color:var(--acc)}
+.f-group select option{background:var(--bg3)}
+.f-group textarea{resize:vertical;min-height:80px;line-height:1.6}
+.f-group small{font-size:11px;color:var(--txt3);margin-top:3px;display:block}
+
+/* ── IMAGEN UPLOAD ── */
+.img-upload{border:2px dashed var(--brd2);border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .15s;position:relative}
+.img-upload:hover,.img-upload.drag{border-color:var(--acc);background:var(--acd)}
+.img-upload input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-upload-icon{font-size:28px;margin-bottom:.5rem;opacity:.5}
+.img-upload p{font-size:13px;color:var(--txt2)}
+.img-upload small{font-size:11px;color:var(--txt3)}
+.img-preview{width:100%;max-height:180px;object-fit:contain;border-radius:8px;margin-top:.75rem;border:1px solid var(--brd)}
+
+/* ── TABLA RANKING ── */
+.rank-table{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.rank-table table{width:100%;border-collapse:collapse}
+.rank-table th{background:var(--bg3);padding:8px 12px;text-align:left;font-size:11px;color:var(--txt3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--brd)}
+.rank-table td{padding:9px 12px;border-bottom:1px solid var(--brd);font-size:13px;color:var(--txt2);vertical-align:middle}
+.rank-table tr:last-child td{border-bottom:none}
+.rank-table tr:hover td{background:var(--bg3)}
+.rank-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;overflow:hidden}
+.rank-av img{width:100%;height:100%;object-fit:cover}
+.cbadge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;text-transform:uppercase}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;margin-bottom:1.1rem;flex-wrap:wrap}
+.tab{padding:5px 14px;border:1px solid var(--brd2);border-radius:20px;font-size:12px;cursor:pointer;background:transparent;color:var(--txt2);transition:all .15s}
+.tab.on,.tab:hover{background:var(--acc);color:#1a1200;border-color:var(--acc);font-weight:600}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+.toast-msg{background:var(--bg2);border:1px solid var(--brd2);border-radius:9px;padding:.7rem 1rem;font-size:13px;color:var(--txt);display:flex;align-items:center;gap:8px;animation:slidein .2s ease;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast-msg.ok{border-color:var(--ok)}.toast-msg.err{border-color:var(--err)}
+.toast-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.toast-msg.ok .toast-dot{background:var(--ok)}.toast-msg.err .toast-dot{background:var(--err)}
+@keyframes slidein{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ── CONFIRM ── */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:600;display:none;align-items:center;justify-content:center}
+.confirm-overlay.on{display:flex}
+.confirm-box{background:var(--bg2);border:1px solid var(--brd2);border-radius:12px;padding:1.5rem;width:340px;text-align:center}
+.confirm-box h4{font-size:15px;font-weight:500;color:var(--txt);margin-bottom:.5rem}
+.confirm-box p{font-size:13px;color:var(--txt2);margin-bottom:1.25rem;line-height:1.6}
+.confirm-btns{display:flex;gap:8px;justify-content:center}
+
+/* ── STATS CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.85rem;margin-bottom:1.5rem}
+.stat-card{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1rem}
+.stat-val{font-size:26px;font-weight:500;color:var(--acc)}
+.stat-lbl{font-size:11.5px;color:var(--txt3);margin-top:3px}
+
+/* ── IMGS PANEL ── */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.85rem}
+.img-item{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.img-item:hover{border-color:var(--acc)}
+.img-thumb{height:110px;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.img-thumb img{width:100%;height:100%;object-fit:cover}
+.img-thumb .no-img{font-size:32px;opacity:.2}
+.img-item-info{padding:.5rem .75rem}
+.img-item-info p{font-size:11.5px;color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.img-item-info small{font-size:10.5px;color:var(--txt3)}
+.img-actions{display:flex;gap:4px;padding:.5rem .75rem;border-top:1px solid var(--brd)}
+
+.saving-bar{position:fixed;top:54px;left:0;right:0;background:var(--acc);color:#1a1200;font-size:12.5px;font-weight:600;text-align:center;padding:6px;z-index:300;display:none}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="lbox">RZ</div>
+      <div>
+        <div style="font-size:16px;font-weight:500;color:var(--txt)">Roller<em style="color:var(--acc);font-style:normal">Zone</em> Spain</div>
+        <div style="font-size:11.5px;color:var(--txt3)">Panel de administración</div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Contraseña del panel</label>
+      <input type="password" id="pw-input" placeholder="Tu contraseña" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="field">
+      <label>GitHub Token <span style="color:var(--txt3);font-weight:400">(necesario para guardar cambios)</span></label>
+      <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" onkeydown="if(event.key==='Enter')doLogin()"/>
+      <small>Settings → Developer Settings → Personal access tokens → Tokens (classic) → repo ✓</small>
+    </div>
+    <div class="field">
+      <label>Repositorio GitHub</label>
+      <input type="text" id="gh-repo" placeholder="usuario/rollerzone-spain" value=""/>
+    </div>
+    <button class="btn-login" onclick="doLogin()">Entrar al panel</button>
+    <div class="login-note">
+      <strong>¿Cómo obtener el token de GitHub?</strong><br>
+      1. Ve a <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a><br>
+      2. "Generate new token (classic)"<br>
+      3. Marca el permiso <strong>repo</strong> (acceso completo)<br>
+      4. Copia el token y pégalo aquí<br>
+      <span style="color:var(--txt3)">El token se guarda solo en tu navegador, no se envía a ningún servidor.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ APP ══════════ -->
+<div id="app">
+  <div id="saving-bar" class="saving-bar">Guardando cambios en GitHub...</div>
+
+  <div class="topbar">
+    <div class="top-logo">
+      <div class="lbox">RZ</div>
+      <span>Roller<em>Zone</em> Admin</span>
+    </div>
+    <div class="top-right">
+      <div class="status-dot" id="status-dot"></div>
+      <span class="status-txt" id="status-txt">Conectado</span>
+      <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sb-section">General</div>
+      <div class="sb-item active" onclick="showPanel('dashboard')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 0h7v7H0zm9 0h7v7H9zM0 9h7v7H0zm9 0h7v7H9z"/></svg>
+        Dashboard
+      </div>
+      <div class="sb-section">Contenido</div>
+      <div class="sb-item" onclick="showPanel('noticias')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm1 1v10h14V3z"/><path d="M2 5h12v1H2zm0 2h8v1H2zm0 2h6v1H2z"/></svg>
+        Noticias
+        <span class="sb-badge" id="badge-noticias">3</span>
+      </div>
+      <div class="sb-item" onclick="showPanel('eventos')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+        Eventos
+        <span class="sb-badge" id="badge-eventos">6</span>
+      </div>
+      <div class="sb-item" onclick="showPanel('ranking')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 11h1v1H2zm2 0h1v1H4zm-2-2h1v1H2zm2 0h1v1H4zM2 7h1v1H2zm2 0h1v1H4zM8 1a1 1 0 0 0-1 1v11a1 1 0 0 0 2 0V2a1 1 0 0 0-1-1m4 3a1 1 0 0 0-1 1v9a1 1 0 0 0 2 0V5a1 1 0 0 0-1-1m-8 3a1 1 0 0 0-1 1v6a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1"/></svg>
+        Ranking MVP
+      </div>
+      <div class="sb-item" onclick="showPanel('entrevistas')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.029 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/></svg>
+        Entrevistas
+      </div>
+      <div class="sb-item" onclick="showPanel('revistas')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg>
+        Revistas
+      </div>
+      <div class="sb-item" onclick="showPanel('clubs')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8"/><path d="M5.5 6.5A.5.5 0 0 1 6 6h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5M5 9h6v1H5z"/></svg>
+        Clubs
+      </div>
+      <div class="sb-item" onclick="showPanel('sponsors')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/></svg>
+        Patrocinadores
+      </div>
+      <div class="sb-section">Media</div>
+      <div class="sb-item" onclick="showPanel('imagenes')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/></svg>
+        Imágenes
+      </div>
+      <div class="sb-section">Config</div>
+      <div class="sb-item" onclick="showPanel('config')">
+        <svg class="sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/><path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.892 3.433-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.892-1.64-.901-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/></svg>
+        Configuración
+      </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <div class="panel on" id="panel-dashboard">
+        <div class="panel-header">
+          <div><div class="panel-title">Dashboard</div><div class="panel-sub">Resumen general de RollerZone Spain</div></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-val" id="st-noticias">3</div><div class="stat-lbl">Noticias</div></div>
+          <div class="stat-card"><div class="stat-val" id="st-eventos">6</div><div class="stat-lbl">Eventos</div></div>
+          <div class="stat-card"><div class="stat-val" id="st-patinadores">18</div><div class="stat-lbl">Patinadores</div></div>
+          <div class="stat-card"><div class="stat-val" id="st-revistas">7</div><div class="stat-lbl">Revistas</div></div>
+          <div class="stat-card"><div class="stat-val" id="st-clubs">6</div><div class="stat-lbl">Clubs</div></div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1.25rem">
+          <div style="font-size:14px;font-weight:500;color:var(--txt);margin-bottom:1rem">Acciones rápidas</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+            <button class="btn btn-primary" onclick="showPanel('noticias');openForm('noticia')">+ Nueva noticia</button>
+            <button class="btn btn-primary" onclick="showPanel('eventos');openForm('evento')">+ Nuevo evento</button>
+            <button class="btn btn-primary" onclick="showPanel('ranking');openForm('patinador')">+ Nuevo patinador</button>
+            <button class="btn btn-ghost" onclick="showPanel('imagenes')">Gestionar imágenes</button>
+          </div>
+        </div>
+        <div style="margin-top:1rem;background:var(--acd);border:1px solid #5a3a00;border-radius:10px;padding:1rem;font-size:12.5px;color:#d4a030;line-height:1.7">
+          <strong>¿Cómo funciona este panel?</strong><br>
+          Todos los cambios se guardan automáticamente en tu repositorio de GitHub y la web se actualiza en 1-2 minutos. Para que funcione necesitas tener configurado el <strong>GitHub Token</strong> y el <strong>nombre del repositorio</strong> (ya los introdujiste al entrar).
+        </div>
+      </div>
+
+      <!-- NOTICIAS -->
+      <div class="panel" id="panel-noticias">
+        <div class="panel-header">
+          <div><div class="panel-title">Noticias</div><div class="panel-sub">Gestiona las noticias de la web</div></div>
+          <button class="btn btn-primary" onclick="openForm('noticia')">+ Nueva noticia</button>
+        </div>
+        <div class="tabs">
+          <button class="tab on" onclick="filterNoticias(this,'todas')">Todas</button>
+          <button class="tab" onclick="filterNoticias(this,'Nacional')">Nacional</button>
+          <button class="tab" onclick="filterNoticias(this,'Internacional')">Internacional</button>
+        </div>
+        <div class="card-grid" id="list-noticias"></div>
+      </div>
+
+      <!-- EVENTOS -->
+      <div class="panel" id="panel-eventos">
+        <div class="panel-header">
+          <div><div class="panel-title">Eventos</div><div class="panel-sub">Próximos eventos y agenda</div></div>
+          <button class="btn btn-primary" onclick="openForm('evento')">+ Nuevo evento</button>
+        </div>
+        <div class="card-grid" id="list-eventos"></div>
+      </div>
+
+      <!-- RANKING -->
+      <div class="panel" id="panel-ranking">
+        <div class="panel-header">
+          <div><div class="panel-title">Ranking MVP</div><div class="panel-sub">Patinadores Elite, Estrella y Promesa</div></div>
+          <button class="btn btn-primary" onclick="openForm('patinador')">+ Nuevo patinador</button>
+        </div>
+        <div class="tabs">
+          <button class="tab on" onclick="filterRanking(this,'todas','todos')">Todos</button>
+          <button class="tab" onclick="filterRanking(this,'elite','todos')">Elite</button>
+          <button class="tab" onclick="filterRanking(this,'estrella','todos')">Estrella</button>
+          <button class="tab" onclick="filterRanking(this,'promesa','todos')">Promesa</button>
+          <button class="tab" onclick="filterRanking(this,'todas','f')">Femenino</button>
+          <button class="tab" onclick="filterRanking(this,'todas','m')">Masculino</button>
+        </div>
+        <div class="rank-table">
+          <table><thead><tr>
+            <th>#</th><th></th><th>Nombre</th><th>Club</th><th>Categoría</th><th>Género</th><th>Puntos</th><th>Acciones</th>
+          </tr></thead>
+          <tbody id="list-ranking"></tbody></table>
+        </div>
+      </div>
+
+      <!-- ENTREVISTAS -->
+      <div class="panel" id="panel-entrevistas">
+        <div class="panel-header">
+          <div><div class="panel-title">Entrevistas</div><div class="panel-sub">Entrevistas con patinadores, entrenadores y clubs</div></div>
+          <button class="btn btn-primary" onclick="openForm('entrevista')">+ Nueva entrevista</button>
+        </div>
+        <div class="card-grid" id="list-entrevistas"></div>
+      </div>
+
+      <!-- REVISTAS -->
+      <div class="panel" id="panel-revistas">
+        <div class="panel-header">
+          <div><div class="panel-title">Revistas</div><div class="panel-sub">Colección RollerZone — gestión de números</div></div>
+          <button class="btn btn-primary" onclick="openForm('revista')">+ Nuevo número</button>
+        </div>
+        <div class="card-grid" id="list-revistas"></div>
+      </div>
+
+      <!-- CLUBS -->
+      <div class="panel" id="panel-clubs">
+        <div class="panel-header">
+          <div><div class="panel-title">Clubs</div><div class="panel-sub">Clubs de patinaje de velocidad</div></div>
+          <button class="btn btn-primary" onclick="openForm('club')">+ Nuevo club</button>
+        </div>
+        <div class="card-grid" id="list-clubs"></div>
+      </div>
+
+      <!-- SPONSORS -->
+      <div class="panel" id="panel-sponsors">
+        <div class="panel-header">
+          <div><div class="panel-title">Patrocinadores</div><div class="panel-sub">Gestión de patrocinadores y logos</div></div>
+          <button class="btn btn-primary" onclick="openForm('sponsor')">+ Nuevo patrocinador</button>
+        </div>
+        <div class="card-grid" id="list-sponsors"></div>
+      </div>
+
+      <!-- IMÁGENES -->
+      <div class="panel" id="panel-imagenes">
+        <div class="panel-header">
+          <div><div class="panel-title">Gestión de imágenes</div><div class="panel-sub">Sube imágenes directamente a tu repositorio de GitHub</div></div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem">
+          <div style="font-size:13.5px;font-weight:500;color:var(--txt);margin-bottom:.85rem">Subir nueva imagen</div>
+          <div class="f-row">
+            <div class="f-group">
+              <label>Carpeta de destino</label>
+              <select id="img-folder">
+                <option value="img/patinadores">Patinadores</option>
+                <option value="img/entrevistas">Entrevistas</option>
+                <option value="img/noticias">Noticias</option>
+                <option value="img/revistas">Portadas de revistas</option>
+                <option value="img/sponsors">Logos patrocinadores</option>
+              </select>
+            </div>
+            <div class="f-group">
+              <label>Nombre del archivo</label>
+              <input type="text" id="img-filename" placeholder="nombre-del-archivo.jpg"/>
+              <small>Sin espacios ni acentos. Ej: lucia-mendez.jpg</small>
+            </div>
+          </div>
+          <div class="img-upload" id="img-drop" style="margin-top:.85rem" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+            <input type="file" id="img-file" accept="image/*" onchange="previewImg(this)"/>
+            <div class="img-upload-icon">🖼</div>
+            <p>Arrastra una imagen aquí o haz clic para seleccionar</p>
+            <small>JPG, PNG, WebP — máx. 5 MB</small>
+            <img id="img-preview-el" class="img-preview" style="display:none"/>
+          </div>
+          <div style="margin-top:.85rem;display:flex;gap:.75rem">
+            <button class="btn btn-primary" onclick="uploadImage()">Subir a GitHub</button>
+            <button class="btn btn-ghost" onclick="clearImgForm()">Limpiar</button>
+          </div>
+        </div>
+        <div style="font-size:13px;font-weight:500;color:var(--txt);margin-bottom:.75rem">Imágenes en el repositorio</div>
+        <div class="img-grid" id="img-grid-list">
+          <div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--txt3);font-size:13px">
+            Las imágenes subidas aparecerán aquí. Para verlas, haz clic en "Cargar imágenes".
+          </div>
+        </div>
+        <div style="margin-top:1rem;text-align:center">
+          <button class="btn btn-ghost" onclick="loadImages()">Cargar imágenes del repositorio</button>
+        </div>
+      </div>
+
+      <!-- CONFIG -->
+      <div class="panel" id="panel-config">
+        <div class="panel-header">
+          <div><div class="panel-title">Configuración</div><div class="panel-sub">Ajustes del panel de administración</div></div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;gap:1rem">
+          <div class="f-group"><label>Contraseña del panel</label><input type="password" id="cfg-pw" placeholder="Nueva contraseña"/></div>
+          <div class="f-group"><label>GitHub Token</label><input type="password" id="cfg-token" placeholder="ghp_xxxxx"/></div>
+          <div class="f-group"><label>Repositorio (usuario/repo)</label><input type="text" id="cfg-repo" placeholder="usuario/rollerzone-spain"/></div>
+          <div class="f-group"><label>Rama</label><input type="text" id="cfg-branch" value="main" placeholder="main"/></div>
+          <button class="btn btn-primary" style="width:fit-content" onclick="saveConfig()">Guardar configuración</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- FORMULARIO MODAL -->
+<div class="form-overlay" id="form-overlay">
+  <div class="form-box">
+    <div class="form-head">
+      <h3 id="form-title">Nuevo elemento</h3>
+      <button class="form-close" onclick="closeForm()">✕</button>
+    </div>
+    <div class="form-body" id="form-body"></div>
+    <div class="form-foot">
+      <button class="btn btn-ghost" onclick="closeForm()">Cancelar</button>
+      <button class="btn btn-primary" id="form-save-btn" onclick="saveForm()">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRMAR BORRADO -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <h4>¿Eliminar este elemento?</h4>
+    <p id="confirm-msg">Esta acción no se puede deshacer.</p>
+    <div class="confirm-btns">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger" id="confirm-ok">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ════════════════════════════════════════
+   ESTADO GLOBAL
+   ════════════════════════════════════════ */
+let CFG = { pw:'rollerzone2026', token:'', repo:'', branch:'main' };
+let DB = {
+  noticias: [
+    {id:'n1',titulo:'España arrasa en el Campeonato de Europa: tres medallas',cat:'Internacional',fecha:'5 Abril 2026',cuerpo:'La selección española protagonizó una actuación histórica en Holanda, con tres podios en las pruebas más exigentes del campeonato continental.',autor:'Redacción RollerZone',img:''},
+    {id:'n2',titulo:'Copa de España 2026: todo listo para la primera prueba en Madrid',cat:'Nacional',fecha:'3 Abril 2026',cuerpo:'Primera prueba puntuable Copa de España Senior 2026, el 19 de abril en el Palacio de los Deportes de Madrid.',autor:'Redacción RollerZone',img:''},
+    {id:'n3',titulo:'Revolución junior: nuevas promesas lideran la clasificación sub-17',cat:'Nacional',fecha:'28 Mar 2026',cuerpo:'La nueva generación de patinadores sub-17 toma el relevo con resultados sorprendentes en las primeras pruebas del circuito junior.',autor:'Redacción RollerZone',img:''},
+  ],
+  eventos: [
+    {id:'e1',nombre:'Copa de España Senior — Prueba 1',cat:'Nacional',dia:'19',mes:'Abr',lugar:'Palacio de los Deportes, Madrid',desc:'Primera prueba puntuable Copa de España Senior 2026.'},
+    {id:'e2',nombre:'Campeonato de Europa Inline — Barcelona',cat:'Internacional',dia:'3',mes:'May',lugar:'Circuit de la Barceloneta, BCN',desc:'La ciudad condal acoge por primera vez el Campeonato de Europa Inline.'},
+    {id:'e3',nombre:'Gran Premio de Asturias',cat:'Nacional',dia:'17',mes:'May',lugar:'Pista cubierta, Oviedo',desc:'Prueba puntuable circuito regional norte. Abierta de benjamín a absoluta.'},
+    {id:'e4',nombre:'World Skate Games 2026',cat:'Internacional',dia:'12',mes:'Jun',lugar:'Medellín, Colombia',desc:'El mayor evento del patinaje mundial reúne atletas de más de 60 países.'},
+    {id:'e5',nombre:'Campeonato de España Junior',cat:'Nacional',dia:'28',mes:'Jun',lugar:'Pista polideportiva, Zaragoza',desc:'Categorías sub-14, sub-17 y sub-20 masculino y femenino.'},
+    {id:'e6',nombre:'Maratón Internacional Donostia',cat:'Internacional',dia:'20',mes:'Sep',lugar:'Paseo Marítimo, San Sebastián',desc:'El maratón más importante del norte de España.'},
+  ],
+  patinadores: [
+    {id:'lm',nombre:'Lucía Méndez',ini:'LM',gen:'f',cat:'elite',club:'CD Velocidad Asturias',pts:1240,edad:24,ciudad:'Oviedo',tit:3,temp:6,foto:'',bio:'Patinadora referente de la élite nacional femenina.',logros:'Campeona España 2024 y 2025,Plata Europeo 2025,Récord nacional 500m'},
+    {id:'sf',nombre:'Sergio Fernández',ini:'SF',gen:'m',cat:'elite',club:'Club Patín Zaragoza',pts:1185,edad:22,ciudad:'Zaragoza',tit:1,temp:2,foto:'',bio:'Gran revelación de la élite masculina en 2026.',logros:'Campeón Junior 2025,2 victorias Copa España 2026'},
+    {id:'mr',nombre:'Marco Rodríguez',ini:'MR',gen:'m',cat:'elite',club:'Athletic Patinaje Bilbao',pts:987,edad:31,ciudad:'Bilbao',tit:4,temp:11,foto:'',bio:'Decano de la élite masculina nacional.',logros:'4 veces campeón España,Bronce Mundial 2021'},
+    {id:'at',nombre:'Ana Torres',ini:'AT',gen:'f',cat:'estrella',club:'Escola de Patinatge BCN',pts:1092,edad:19,ciudad:'Barcelona',tit:2,temp:3,foto:'',bio:'Gran figura de la categoría Estrella femenina.',logros:'Campeona Estrella 2024 y 2025,Récord Cataluña sub-20'},
+    {id:'dp',nombre:'Diego Palma',ini:'DP',gen:'m',cat:'estrella',club:'CD Velocidad Asturias',pts:1034,edad:20,ciudad:'Gijón',tit:1,temp:3,foto:'',bio:'Líder de la categoría Estrella masculina.',logros:'Campeón Estrella 2025,Récord Asturias sub-21'},
+    {id:'ms',nombre:'Marta Soto',ini:'MS',gen:'f',cat:'promesa',club:'CD Velocidad Asturias',pts:780,edad:15,ciudad:'Avilés',tit:2,temp:2,foto:'',bio:'Mayor promesa del patinaje femenino español.',logros:'Campeona Promesa 2024 y 2025,Récord nacional promesa'},
+    {id:'co',nombre:'Carlos Ortega',ini:'CO',gen:'m',cat:'promesa',club:'Club Patín Zaragoza',pts:856,edad:16,ciudad:'Zaragoza',tit:2,temp:2,foto:'',bio:'Líder de la categoría Promesa masculina.',logros:'Campeón Promesa 2024 y 2025,Récord Aragón promesa'},
+  ],
+  entrevistas: [
+    {id:'i1',titulo:'"Entreno 6 horas al día porque el sueño olímpico no espera"',tipo:'Patinadora',persona:'Lucía Méndez',cargo:'CD Velocidad Asturias',cuerpo:'La asturiana, líder del ranking MVP Elite, nos abre las puertas de su vida diaria.',ini:'LM',foto:''},
+    {id:'i2',titulo:'"Esta generación tiene talento para dominar Europa una década"',tipo:'Entrenador',persona:'Juan Pérez',cargo:'Seleccionador Nacional RFEP',cuerpo:'El seleccionador nacional analiza el presente y el futuro de la velocidad española.',ini:'JP',foto:''},
+    {id:'i3',titulo:'30 años formando campeones: historia del club más laureado del norte',tipo:'Club',persona:'CD Velocidad Asturias',cargo:'Oviedo, Asturias',cuerpo:'El presidente y entrenador jefe repasan tres décadas de historia.',ini:'AS',foto:''},
+  ],
+  revistas: [
+    {id:'r1',n:1,year:'2020',theme:'Origen y Pasión',sumario:'Historia del patinaje en España · Primeras figuras',precio:'3.99',link:'#',portada:'',current:false},
+    {id:'r2',n:2,year:'2021',theme:'Campeones de España',sumario:'Reportaje campeonato nacional 2020 · Entrevista campeón',precio:'3.99',link:'#',portada:'',current:false},
+    {id:'r3',n:3,year:'2021',theme:'Pista y Maratón',sumario:'Maratón vs pista · Preparación física maratón',precio:'3.99',link:'#',portada:'',current:false},
+    {id:'r4',n:4,year:'2022',theme:'Generación Olímpica',sumario:'El patinaje camino a los Juegos · Promesas sub-17',precio:'3.99',link:'#',portada:'',current:false},
+    {id:'r5',n:5,year:'2023',theme:'Europa en Juego',sumario:'Crónica Campeonato de Europa · Selección nacional',precio:'3.99',link:'#',portada:'',current:false},
+    {id:'r6',n:6,year:'2024',theme:'Velocidad Extrema',sumario:'Récords nacionales e internacionales · Biomecánica',precio:'4.49',link:'#',portada:'',current:false},
+    {id:'r7',n:7,year:'2025',theme:'Número actual',sumario:'España en Europa · Entrevista Lucía Méndez · Ranking MVP 2026',precio:'4.99',link:'#',portada:'',current:true},
+  ],
+  clubs: [
+    {id:'c1',nombre:'CD Velocidad Asturias',ini:'AS',ciudad:'Oviedo',ccaa:'Asturias',fundado:'1994',patinadores:120,titulos:12,desc:'Uno de los clubs más destacados de la escena nacional.',logo:''},
+    {id:'c2',nombre:'Club Patín Zaragoza',ini:'ZA',ciudad:'Zaragoza',ccaa:'Aragón',fundado:'1988',patinadores:95,titulos:8,desc:'Uno de los más veteranos de España y cuna de grandes figuras.',logo:''},
+    {id:'c3',nombre:'Escola de Patinatge BCN',ini:'BC',ciudad:'Barcelona',ccaa:'Cataluña',fundado:'2001',patinadores:140,titulos:5,desc:'La mayor escuela de patinaje de velocidad de Cataluña.',logo:''},
+    {id:'c4',nombre:'Athletic Patinaje Bilbao',ini:'BI',ciudad:'Bilbao',ccaa:'País Vasco',fundado:'1997',patinadores:80,titulos:6,desc:'Club histórico del País Vasco con Marco Rodríguez como referente.',logo:''},
+    {id:'c5',nombre:'CD Velocidad Madrid',ini:'MD',ciudad:'Madrid',ccaa:'Madrid',fundado:'1990',patinadores:110,titulos:10,desc:'Con sede en la capital, segundo club más laureado del ranking histórico.',logo:''},
+    {id:'c6',nombre:'Club Patinaje Sevilla',ini:'SE',ciudad:'Sevilla',ccaa:'Andalucía',fundado:'2003',patinadores:65,titulos:2,desc:'El club más representativo de Andalucía en velocidad.',logo:''},
+  ],
+  sponsors: [
+    {id:'s1',nombre:'Speed Skates Pro',ini:'SP',tipo:'Patrocinador Oficial',desc:'Material técnico y calzado de competición',texto:'Proveedor oficial de material técnico de RollerZone Spain.',logo:''},
+    {id:'s2',nombre:'Rollux Equipment',ini:'RX',tipo:'Equipamiento',desc:'Ruedas, rodamientos y protección',texto:'Marca de referencia en ruedas y rodamientos para patinaje de velocidad.',logo:''},
+    {id:'s3',nombre:'X-Skate Helmets',ini:'XH',tipo:'Seguridad',desc:'Cascos y protecciones certificadas CE',texto:'Proveedor de seguridad oficial de varias federaciones autonómicas.',logo:''},
+    {id:'s4',nombre:'RFEP',ini:'RF',tipo:'Apoyo Institucional',desc:'Real Federación Española de Patinaje',texto:'Colabora con RollerZone Spain en la difusión del patinaje de velocidad.',logo:''},
+  ],
+};
+
+let currentForm = null;
+let editingId   = null;
+let filterCatRank = 'todas', filterGenRank = 'todos';
+let filterCatNot  = 'todas';
+let confirmCb = null;
+
+/* ════════════════════════════════════════
+   LOGIN / AUTH
+   ════════════════════════════════════════ */
+function doLogin(){
+  const pw    = document.getElementById('pw-input').value;
+  const token = document.getElementById('gh-token').value.trim();
+  const repo  = document.getElementById('gh-repo').value.trim();
+  if(pw !== CFG.pw){ toast('Contraseña incorrecta','err'); return; }
+  if(!token){ toast('Introduce el GitHub Token','err'); return; }
+  if(!repo){ toast('Introduce el repositorio (usuario/repo)','err'); return; }
+  CFG.token = token; CFG.repo = repo;
+  localStorage.setItem('rz_token', token);
+  localStorage.setItem('rz_repo',  repo);
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  renderAll();
+  toast('Bienvenido al panel de administración ✓','ok');
+}
+
+function logout(){
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+}
+
+/* ════════════════════════════════════════
+   NAVEGACIÓN
+   ════════════════════════════════════════ */
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('on');
+  document.querySelectorAll('.sb-item').forEach(i=>{
+    if(i.getAttribute('onclick')&&i.getAttribute('onclick').includes("'"+id+"'")) i.classList.add('active');
+  });
+}
+
+/* ════════════════════════════════════════
+   RENDER LISTAS
+   ════════════════════════════════════════ */
+function renderAll(){
+  renderNoticias(); renderEventos(); renderRankingList();
+  renderEntrevistas(); renderRevistas(); renderClubs(); renderSponsors();
+  updateStats();
+}
+
+function updateStats(){
+  document.getElementById('st-noticias').textContent   = DB.noticias.length;
+  document.getElementById('st-eventos').textContent    = DB.eventos.length;
+  document.getElementById('st-patinadores').textContent= DB.patinadores.length;
+  document.getElementById('st-revistas').textContent   = DB.revistas.length;
+  document.getElementById('st-clubs').textContent      = DB.clubs.length;
+  document.getElementById('badge-noticias').textContent= DB.noticias.length;
+  document.getElementById('badge-eventos').textContent = DB.eventos.length;
+}
+
+function renderNoticias(){
+  const list = filterCatNot==='todas' ? DB.noticias : DB.noticias.filter(n=>n.cat===filterCatNot);
+  document.getElementById('list-noticias').innerHTML = list.map(n=>`
+    <div class="item-card">
+      <div class="item-card-head">
+        <div class="item-av" style="border-radius:6px;width:44px;height:44px;background:${n.cat==='Internacional'?'#2d1f00':'#002820'}">
+          <span style="font-size:9px;font-weight:700;color:${n.cat==='Internacional'?'var(--acc)':'#1d9e75'}">${n.cat==='Internacional'?'INT':'NAC'}</span>
+        </div>
+        <div><div class="item-title">${n.titulo}</div><div class="item-meta">${n.fecha} · ${n.autor}</div></div>
+      </div>
+      <div class="item-card-body">${n.cuerpo.substring(0,120)}${n.cuerpo.length>120?'…':''}</div>
+      <div class="item-card-foot">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('noticia','${n.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('noticia','${n.id}','${esc(n.titulo)}')">🗑</button>
+      </div>
+    </div>`).join('') || '<div style="color:var(--txt3);font-size:13px;padding:1rem">Sin noticias en esta categoría.</div>';
+}
+
+function renderEventos(){
+  document.getElementById('list-eventos').innerHTML = DB.eventos.map(e=>`
+    <div class="item-card">
+      <div class="item-card-head">
+        <div class="item-av" style="width:44px;height:52px;border-radius:8px;background:var(--acc);flex-direction:column;gap:0">
+          <span style="font-size:17px;font-weight:700;color:#1a1200;line-height:1">${e.dia}</span>
+          <span style="font-size:9px;color:#1a1200;text-transform:uppercase">${e.mes}</span>
+        </div>
+        <div><div class="item-title">${e.nombre}</div><div class="item-meta">${e.lugar}</div></div>
+      </div>
+      <div class="item-card-body">${e.desc}</div>
+      <div class="item-card-foot">
+        <span class="${e.cat==='Nacional'?'cbadge':'cbadge'}" style="font-size:10px;padding:2px 7px;border-radius:4px;background:${e.cat==='Nacional'?'#2d1f00':'#002820'};color:${e.cat==='Nacional'?'var(--acc)':'#1d9e75'};margin-right:auto">${e.cat}</span>
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('evento','${e.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('evento','${e.id}','${esc(e.nombre)}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderRankingList(){
+  const CC={elite:{bg:'#f5a623',fg:'#1a1200'},estrella:{bg:'#534ab7',fg:'#fff'},promesa:{bg:'#1d9e75',fg:'#fff'}};
+  const list = DB.patinadores
+    .filter(p=>(filterCatRank==='todas'||p.cat===filterCatRank)&&(filterGenRank==='todos'||p.gen===filterGenRank))
+    .sort((a,b)=>b.pts-a.pts);
+  document.getElementById('list-ranking').innerHTML = list.map((p,i)=>{
+    const cc=CC[p.cat];
+    return `<tr>
+      <td style="color:var(--txt3)">${i+1}</td>
+      <td><div class="rank-av ${p.gen==='f'?'avf':'avm'}" style="background:${p.gen==='f'?'#4b1528':'#042c53'};color:${p.gen==='f'?'#ed93b1':'#85b7eb'}">${p.ini}</div></td>
+      <td><div style="font-weight:500;color:var(--txt)">${p.nombre}</div><div style="font-size:11px;color:var(--txt3)">${p.ciudad}</div></td>
+      <td>${p.club}</td>
+      <td><span class="cbadge" style="background:${cc.bg};color:${cc.fg}">${p.cat}</span></td>
+      <td><span style="font-size:11px;color:${p.gen==='f'?'#ed93b1':'#85b7eb'}">${p.gen==='f'?'Femenino':'Masculino'}</span></td>
+      <td style="font-weight:500;color:var(--acc)">${p.pts}</td>
+      <td>
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('patinador','${p.id}')">✏</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('patinador','${p.id}','${esc(p.nombre)}')">🗑</button>
+      </td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--txt3);padding:1rem">Sin patinadores con estos filtros.</td></tr>';
+}
+
+function renderEntrevistas(){
+  document.getElementById('list-entrevistas').innerHTML = DB.entrevistas.map(e=>`
+    <div class="item-card">
+      <div class="item-card-head">
+        <div class="item-av">${e.foto?`<img src="${e.foto}">`:`<span>${e.ini}</span>`}</div>
+        <div><div class="item-title">${e.titulo.substring(0,60)}${e.titulo.length>60?'…':''}</div><div class="item-meta">${e.tipo} · ${e.persona}</div></div>
+      </div>
+      <div class="item-card-body">${e.cargo}</div>
+      <div class="item-card-foot">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('entrevista','${e.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('entrevista','${e.id}','${esc(e.titulo)}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderRevistas(){
+  document.getElementById('list-revistas').innerHTML = DB.revistas.map(r=>`
+    <div class="item-card">
+      <div class="item-card-head">
+        <div class="item-av" style="width:44px;height:52px;border-radius:8px;background:#1a1200;flex-direction:column;gap:0">
+          <span style="font-size:8px;color:rgba(255,255,255,.5)">RZ</span>
+          <span style="font-size:16px;font-weight:700;color:#fff;line-height:1">N°${r.n}</span>
+        </div>
+        <div>
+          <div class="item-title">N°${r.n} — ${r.theme} ${r.current?'<span style="background:var(--acc);color:#1a1200;font-size:9px;padding:1px 6px;border-radius:3px;font-weight:700">ACTUAL</span>':''}</div>
+          <div class="item-meta">${r.year} · ${r.precio} € · ${r.link&&r.link!=='#'?'Enlace configurado':'Sin enlace de compra'}</div>
+        </div>
+      </div>
+      <div class="item-card-body" style="font-size:11.5px">${r.sumario.substring(0,100)}…</div>
+      <div class="item-card-foot">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('revista','${r.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('revista','${r.id}','Revista N°${r.n}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderClubs(){
+  document.getElementById('list-clubs').innerHTML = DB.clubs.map(c=>`
+    <div class="item-card">
+      <div class="item-card-head">
+        <div class="item-av">${c.logo?`<img src="${c.logo}">`:`<span>${c.ini}</span>`}</div>
+        <div><div class="item-title">${c.nombre}</div><div class="item-meta">${c.ciudad}, ${c.ccaa} · Fundado ${c.fundado}</div></div>
+      </div>
+      <div class="item-card-body">${c.patinadores} patinadores · ${c.titulos} títulos nacionales</div>
+      <div class="item-card-foot">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('club','${c.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('club','${c.id}','${esc(c.nombre)}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderSponsors(){
+  document.getElementById('list-sponsors').innerHTML = DB.sponsors.map(s=>`
+    <div class="item-card">
+      <div class="item-card-head">
+        <div class="item-av">${s.logo?`<img src="${s.logo}">`:`<span>${s.ini}</span>`}</div>
+        <div><div class="item-title">${s.nombre}</div><div class="item-meta">${s.tipo}</div></div>
+      </div>
+      <div class="item-card-body">${s.desc}</div>
+      <div class="item-card-foot">
+        <button class="btn btn-ghost btn-sm" onclick="openEdit('sponsor','${s.id}')">✏ Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmDelete('sponsor','${s.id}','${esc(s.nombre)}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ════════════════════════════════════════
+   FILTROS
+   ════════════════════════════════════════ */
+function filterNoticias(el,cat){
+  document.querySelectorAll('#panel-noticias .tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on'); filterCatNot=cat; renderNoticias();
+}
+function filterRanking(el,cat,gen){
+  document.querySelectorAll('#panel-ranking .tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on'); filterCatRank=cat; filterGenRank=gen; renderRankingList();
+}
+
+/* ════════════════════════════════════════
+   FORMULARIOS
+   ════════════════════════════════════════ */
+const FORMS = {
+  noticia: ()=>`
+    <div class="f-row">
+      <div class="f-group f-full"><label>Título</label><input id="f-titulo" placeholder="Título de la noticia"/></div>
+      <div class="f-group"><label>Categoría</label><select id="f-cat"><option>Nacional</option><option>Internacional</option></select></div>
+      <div class="f-group"><label>Fecha</label><input id="f-fecha" placeholder="5 Abril 2026"/></div>
+      <div class="f-group"><label>Autor</label><input id="f-autor" placeholder="Redacción RollerZone"/></div>
+      <div class="f-group f-full"><label>Imagen de la noticia</label><input id="f-img" placeholder="img/noticias/nombre.jpg"/><small>Sube la imagen primero en "Imágenes" y pega aquí la ruta</small></div>
+      <div class="f-group f-full"><label>Texto completo</label><textarea id="f-cuerpo" rows="5" placeholder="Cuerpo de la noticia..."></textarea></div>
+    </div>`,
+  evento: ()=>`
+    <div class="f-row">
+      <div class="f-group f-full"><label>Nombre del evento</label><input id="f-nombre" placeholder="Copa de España Senior — Prueba 1"/></div>
+      <div class="f-group"><label>Día</label><input id="f-dia" placeholder="19"/></div>
+      <div class="f-group"><label>Mes</label><input id="f-mes" placeholder="Abr"/></div>
+      <div class="f-group"><label>Categoría</label><select id="f-cat"><option>Nacional</option><option>Internacional</option></select></div>
+      <div class="f-group"><label>Lugar</label><input id="f-lugar" placeholder="Palacio de los Deportes, Madrid"/></div>
+      <div class="f-group f-full"><label>Descripción</label><textarea id="f-desc" rows="3" placeholder="Descripción del evento..."></textarea></div>
+    </div>`,
+  patinador: ()=>`
+    <div class="f-row">
+      <div class="f-group"><label>Nombre completo</label><input id="f-nombre" placeholder="Lucía Méndez"/></div>
+      <div class="f-group"><label>Iniciales (2 letras)</label><input id="f-ini" placeholder="LM" maxlength="2"/></div>
+      <div class="f-group"><label>Género</label><select id="f-gen"><option value="f">Femenino</option><option value="m">Masculino</option></select></div>
+      <div class="f-group"><label>Categoría</label><select id="f-cat"><option value="elite">Elite</option><option value="estrella">Estrella</option><option value="promesa">Promesa</option></select></div>
+      <div class="f-group"><label>Club</label><input id="f-club" placeholder="CD Velocidad Asturias"/></div>
+      <div class="f-group"><label>Ciudad</label><input id="f-ciudad" placeholder="Oviedo"/></div>
+      <div class="f-group"><label>Puntos MVP</label><input id="f-pts" type="number" placeholder="1240"/></div>
+      <div class="f-group"><label>Edad</label><input id="f-edad" type="number" placeholder="24"/></div>
+      <div class="f-group"><label>Títulos nacionales</label><input id="f-tit" type="number" placeholder="3"/></div>
+      <div class="f-group"><label>Temporadas</label><input id="f-temp" type="number" placeholder="6"/></div>
+      <div class="f-group f-full"><label>Foto del patinador</label><input id="f-foto" placeholder="img/patinadores/lucia-mendez.jpg"/><small>Sube la foto primero en "Imágenes"</small></div>
+      <div class="f-group f-full"><label>Biografía</label><textarea id="f-bio" rows="3" placeholder="Texto biográfico..."></textarea></div>
+      <div class="f-group f-full"><label>Logros (uno por línea)</label><textarea id="f-logros" rows="4" placeholder="Campeona de España 2025&#10;Récord nacional 500m&#10;..."></textarea><small>Escribe un logro por línea</small></div>
+    </div>`,
+  entrevista: ()=>`
+    <div class="f-row">
+      <div class="f-group f-full"><label>Título / Cita destacada</label><input id="f-titulo" placeholder='"Frase destacada de la entrevista"'/></div>
+      <div class="f-group"><label>Tipo</label><select id="f-tipo"><option>Patinador</option><option>Patinadora</option><option>Entrenador</option><option>Entrenadora</option><option>Club</option></select></div>
+      <div class="f-group"><label>Nombre persona/club</label><input id="f-persona" placeholder="Lucía Méndez"/></div>
+      <div class="f-group"><label>Cargo/Club</label><input id="f-cargo" placeholder="CD Velocidad Asturias"/></div>
+      <div class="f-group"><label>Iniciales avatar</label><input id="f-ini" placeholder="LM" maxlength="2"/></div>
+      <div class="f-group"><label>Foto</label><input id="f-foto" placeholder="img/entrevistas/lucia-mendez.jpg"/></div>
+      <div class="f-group f-full"><label>Texto completo</label><textarea id="f-cuerpo" rows="5" placeholder="Texto completo de la entrevista..."></textarea></div>
+    </div>`,
+  revista: ()=>`
+    <div class="f-row">
+      <div class="f-group"><label>Número</label><input id="f-n" type="number" placeholder="8"/></div>
+      <div class="f-group"><label>Año</label><input id="f-year" placeholder="2026"/></div>
+      <div class="f-group"><label>Tema principal</label><input id="f-theme" placeholder="Tema del número"/></div>
+      <div class="f-group"><label>Precio PDF (€)</label><input id="f-precio" placeholder="4.99"/></div>
+      <div class="f-group f-full"><label>Enlace de compra (Gumroad, Payhip...)</label><input id="f-link" placeholder="https://tu-tienda.com/rz8"/></div>
+      <div class="f-group f-full"><label>Portada</label><input id="f-portada" placeholder="img/revistas/rz8.jpg"/></div>
+      <div class="f-group f-full"><label>Sumario (separado por ·)</label><textarea id="f-sumario" rows="3" placeholder="Artículo 1 · Artículo 2 · Entrevista · ..."></textarea></div>
+      <div class="f-group"><label>¿Número actual?</label><select id="f-current"><option value="false">No</option><option value="true">Sí (marcar como actual)</option></select></div>
+    </div>`,
+  club: ()=>`
+    <div class="f-row">
+      <div class="f-group"><label>Nombre del club</label><input id="f-nombre" placeholder="CD Velocidad Asturias"/></div>
+      <div class="f-group"><label>Iniciales (2 letras)</label><input id="f-ini" placeholder="AS" maxlength="2"/></div>
+      <div class="f-group"><label>Ciudad</label><input id="f-ciudad" placeholder="Oviedo"/></div>
+      <div class="f-group"><label>Comunidad Autónoma</label><input id="f-ccaa" placeholder="Asturias"/></div>
+      <div class="f-group"><label>Año de fundación</label><input id="f-fundado" placeholder="1994"/></div>
+      <div class="f-group"><label>N° patinadores</label><input id="f-patinadores" type="number" placeholder="120"/></div>
+      <div class="f-group"><label>Títulos nacionales</label><input id="f-titulos" type="number" placeholder="12"/></div>
+      <div class="f-group"><label>Logo del club</label><input id="f-logo" placeholder="img/sponsors/club-logo.png"/></div>
+      <div class="f-group f-full"><label>Descripción</label><textarea id="f-desc" rows="3" placeholder="Historia y descripción del club..."></textarea></div>
+    </div>`,
+  sponsor: ()=>`
+    <div class="f-row">
+      <div class="f-group"><label>Nombre</label><input id="f-nombre" placeholder="Speed Skates Pro"/></div>
+      <div class="f-group"><label>Iniciales</label><input id="f-ini" placeholder="SP" maxlength="2"/></div>
+      <div class="f-group"><label>Tipo de patrocinio</label><input id="f-tipo" placeholder="Patrocinador Oficial"/></div>
+      <div class="f-group"><label>Logo</label><input id="f-logo" placeholder="img/sponsors/speed-skates.png"/></div>
+      <div class="f-group f-full"><label>Descripción corta</label><input id="f-desc" placeholder="Material técnico y calzado de competición"/></div>
+      <div class="f-group f-full"><label>Texto completo</label><textarea id="f-texto" rows="3" placeholder="Descripción completa del patrocinador..."></textarea></div>
+    </div>`,
+};
+
+function openForm(type){
+  currentForm = type; editingId = null;
+  document.getElementById('form-title').textContent = {
+    noticia:'Nueva noticia',evento:'Nuevo evento',patinador:'Nuevo patinador',
+    entrevista:'Nueva entrevista',revista:'Nuevo número',club:'Nuevo club',sponsor:'Nuevo patrocinador'
+  }[type];
+  document.getElementById('form-body').innerHTML = FORMS[type]();
+  document.getElementById('form-save-btn').textContent = 'Añadir';
+  document.getElementById('form-overlay').classList.add('on');
+}
+
+function openEdit(type, id){
+  currentForm = type; editingId = id;
+  const map = {noticia:'noticias',evento:'eventos',patinador:'patinadores',
+    entrevista:'entrevistas',revista:'revistas',club:'clubs',sponsor:'sponsors'};
+  const item = DB[map[type]].find(x=>x.id===id);
+  if(!item) return;
+  document.getElementById('form-title').textContent = 'Editar ' + type;
+  document.getElementById('form-body').innerHTML = FORMS[type]();
+  document.getElementById('form-save-btn').textContent = 'Guardar cambios';
+  /* Rellenar campos */
+  Object.keys(item).forEach(k=>{
+    const el = document.getElementById('f-'+k);
+    if(el){
+      if(el.tagName==='SELECT'){
+        [...el.options].forEach(o=>{ if(o.value===String(item[k])||o.text===String(item[k])) o.selected=true; });
+      } else el.value = Array.isArray(item[k]) ? item[k].join('\n') : (item[k]??'');
+    }
+  });
+  document.getElementById('form-overlay').classList.add('on');
+}
+
+function closeForm(){
+  document.getElementById('form-overlay').classList.remove('on');
+  currentForm = null; editingId = null;
+}
+
+function saveForm(){
+  const map = {noticia:'noticias',evento:'eventos',patinador:'patinadores',
+    entrevista:'entrevistas',revista:'revistas',club:'clubs',sponsor:'sponsors'};
+  const col = map[currentForm];
+  const g = id => { const el=document.getElementById(id); return el ? el.value.trim() : ''; };
+
+  let obj = {};
+  if(currentForm==='noticia')   obj={titulo:g('f-titulo'),cat:g('f-cat'),fecha:g('f-fecha'),autor:g('f-autor'),cuerpo:g('f-cuerpo'),img:g('f-img')};
+  if(currentForm==='evento')    obj={nombre:g('f-nombre'),dia:g('f-dia'),mes:g('f-mes'),cat:g('f-cat'),lugar:g('f-lugar'),desc:g('f-desc')};
+  if(currentForm==='patinador') obj={nombre:g('f-nombre'),ini:(g('f-ini')||'??').toUpperCase(),gen:g('f-gen'),cat:g('f-cat'),club:g('f-club'),ciudad:g('f-ciudad'),pts:+g('f-pts')||0,edad:+g('f-edad')||0,tit:+g('f-tit')||0,temp:+g('f-temp')||0,foto:g('f-foto'),bio:g('f-bio'),logros:g('f-logros').split('\n').filter(Boolean)};
+  if(currentForm==='entrevista') obj={titulo:g('f-titulo'),tipo:g('f-tipo'),persona:g('f-persona'),cargo:g('f-cargo'),ini:(g('f-ini')||'??').toUpperCase(),foto:g('f-foto'),cuerpo:g('f-cuerpo')};
+  if(currentForm==='revista')   obj={n:+g('f-n')||1,year:g('f-year'),theme:g('f-theme'),precio:g('f-precio'),link:g('f-link'),portada:g('f-portada'),sumario:g('f-sumario'),current:g('f-current')==='true'};
+  if(currentForm==='club')      obj={nombre:g('f-nombre'),ini:(g('f-ini')||'??').toUpperCase(),ciudad:g('f-ciudad'),ccaa:g('f-ccaa'),fundado:g('f-fundado'),patinadores:+g('f-patinadores')||0,titulos:+g('f-titulos')||0,logo:g('f-logo'),desc:g('f-desc')};
+  if(currentForm==='sponsor')   obj={nombre:g('f-nombre'),ini:(g('f-ini')||'??').toUpperCase(),tipo:g('f-tipo'),logo:g('f-logo'),desc:g('f-desc'),texto:g('f-texto')};
+
+  if(editingId){
+    const idx = DB[col].findIndex(x=>x.id===editingId);
+    if(idx>-1){ DB[col][idx]={...DB[col][idx],...obj}; }
+  } else {
+    obj.id = currentForm[0]+Date.now();
+    DB[col].push(obj);
+  }
+  closeForm();
+  renderAll();
+  saveToGitHub();
+  toast(editingId?'Cambios guardados ✓':'Elemento añadido ✓','ok');
+}
+
+/* ════════════════════════════════════════
+   BORRAR
+   ════════════════════════════════════════ */
+function confirmDelete(type,id,name){
+  const map={noticia:'noticias',evento:'eventos',patinador:'patinadores',
+    entrevista:'entrevistas',revista:'revistas',club:'clubs',sponsor:'sponsors'};
+  document.getElementById('confirm-msg').textContent = `¿Eliminar "${name}"? Esta acción no se puede deshacer.`;
+  document.getElementById('confirm-ok').onclick = ()=>{
+    DB[map[type]] = DB[map[type]].filter(x=>x.id!==id);
+    closeConfirm(); renderAll(); saveToGitHub();
+    toast('Elemento eliminado','ok');
+  };
+  document.getElementById('confirm-overlay').classList.add('on');
+}
+function closeConfirm(){ document.getElementById('confirm-overlay').classList.remove('on'); }
+
+/* ════════════════════════════════════════
+   GITHUB API — GUARDAR
+   ════════════════════════════════════════ */
+async function saveToGitHub(){
+  if(!CFG.token||!CFG.repo){ toast('Configura el token y repositorio de GitHub','err'); return; }
+  document.getElementById('saving-bar').style.display='block';
+  try{
+    /* Genera los archivos JS actualizados */
+    const files = {
+      'js/ranking.js':  buildRankingJS(),
+      'js/revistas.js': buildRevistasJS(),
+      'js/app-data.js': buildDataJS(),
+    };
+    for(const [path, content] of Object.entries(files)){
+      await githubPut(path, content);
+    }
+    toast('Web actualizada en GitHub ✓','ok');
+  } catch(e){
+    toast('Error al guardar en GitHub: '+e.message,'err');
+  } finally{
+    document.getElementById('saving-bar').style.display='none';
+  }
+}
+
+async function githubPut(path, content){
+  const url = `https://api.github.com/repos/${CFG.repo}/contents/${path}`;
+  /* Obtener SHA actual si existe */
+  let sha = '';
+  try{
+    const r = await fetch(url,{headers:{Authorization:`token ${CFG.token}`,'Accept':'application/vnd.github.v3+json'}});
+    if(r.ok){ const d=await r.json(); sha=d.sha||''; }
+  }catch(e){}
+  const body = {message:`Admin: update ${path}`,content:btoa(unescape(encodeURIComponent(content))),branch:CFG.branch};
+  if(sha) body.sha=sha;
+  const res = await fetch(url,{method:'PUT',headers:{Authorization:`token ${CFG.token}`,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},body:JSON.stringify(body)});
+  if(!res.ok){ const e=await res.json(); throw new Error(e.message||'GitHub error'); }
+}
+
+/* ════════════════════════════════════════
+   SUBIR IMÁGENES A GITHUB
+   ════════════════════════════════════════ */
+let imgBase64 = '';
+
+function previewImg(input){
+  const f=input.files[0]; if(!f) return;
+  const reader=new FileReader();
+  reader.onload=e=>{ imgBase64=e.target.result.split(',')[1]; document.getElementById('img-preview-el').src=e.target.result; document.getElementById('img-preview-el').style.display='block'; };
+  reader.readAsDataURL(f);
+  if(!document.getElementById('img-filename').value) document.getElementById('img-filename').value=f.name.replace(/\s+/g,'-').toLowerCase();
+}
+
+function handleDrop(e){
+  e.preventDefault(); document.getElementById('img-drop').classList.remove('drag');
+  const f=e.dataTransfer.files[0]; if(!f||!f.type.startsWith('image/')) return;
+  document.getElementById('img-file').files=e.dataTransfer.files;
+  previewImg({files:[f]});
+}
+
+async function uploadImage(){
+  if(!imgBase64){ toast('Selecciona una imagen primero','err'); return; }
+  const folder   = document.getElementById('img-folder').value;
+  const filename = document.getElementById('img-filename').value.trim();
+  if(!filename){ toast('Escribe un nombre de archivo','err'); return; }
+  if(!CFG.token||!CFG.repo){ toast('Configura el token de GitHub','err'); return; }
+  const path = `${folder}/${filename}`;
+  document.getElementById('saving-bar').style.display='block';
+  try{
+    let sha='';
+    try{ const r=await fetch(`https://api.github.com/repos/${CFG.repo}/contents/${path}`,{headers:{Authorization:`token ${CFG.token}`,'Accept':'application/vnd.github.v3+json'}}); if(r.ok){const d=await r.json();sha=d.sha||'';} }catch(e){}
+    const body={message:`Admin: upload ${filename}`,content:imgBase64,branch:CFG.branch};
+    if(sha) body.sha=sha;
+    const res=await fetch(`https://api.github.com/repos/${CFG.repo}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${CFG.token}`,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},body:JSON.stringify(body)});
+    if(!res.ok){ const e=await res.json(); throw new Error(e.message); }
+    toast(`Imagen subida: ${path} ✓`,'ok');
+    clearImgForm();
+  }catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ document.getElementById('saving-bar').style.display='none'; }
+}
+
+function clearImgForm(){
+  imgBase64='';
+  document.getElementById('img-filename').value='';
+  document.getElementById('img-preview-el').style.display='none';
+  document.getElementById('img-file').value='';
+}
+
+async function loadImages(){
+  if(!CFG.token||!CFG.repo){ toast('Configura el token de GitHub','err'); return; }
+  const folders=['img/patinadores','img/entrevistas','img/noticias','img/revistas','img/sponsors'];
+  let html='';
+  for(const folder of folders){
+    try{
+      const r=await fetch(`https://api.github.com/repos/${CFG.repo}/contents/${folder}`,{headers:{Authorization:`token ${CFG.token}`,'Accept':'application/vnd.github.v3+json'}});
+      if(r.ok){
+        const files=await r.json();
+        files.filter(f=>f.type==='file').forEach(f=>{
+          html+=`<div class="img-item">
+            <div class="img-thumb"><img src="${f.download_url}" onerror="this.style.display='none'"></div>
+            <div class="img-item-info"><p>${f.name}</p><small>${folder}</small></div>
+            <div class="img-actions">
+              <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText('${folder}/${f.name}');toast('Ruta copiada','ok')">Copiar ruta</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteImg('${folder}/${f.name}','${f.sha}')">🗑</button>
+            </div>
+          </div>`;
+        });
+      }
+    }catch(e){}
+  }
+  document.getElementById('img-grid-list').innerHTML = html || '<div style="color:var(--txt3);font-size:13px;padding:1rem">No hay imágenes todavía. Sube la primera usando el formulario de arriba.</div>';
+}
+
+async function deleteImg(path,sha){
+  if(!confirm(`¿Eliminar ${path}?`)) return;
+  try{
+    await fetch(`https://api.github.com/repos/${CFG.repo}/contents/${path}`,{method:'DELETE',headers:{Authorization:`token ${CFG.token}`,'Content-Type':'application/json'},body:JSON.stringify({message:`Admin: delete ${path}`,sha,branch:CFG.branch})});
+    toast('Imagen eliminada','ok'); loadImages();
+  }catch(e){ toast('Error al eliminar','err'); }
+}
+
+/* ════════════════════════════════════════
+   GENERADORES DE CÓDIGO JS
+   ════════════════════════════════════════ */
+function buildRankingJS(){
+  const players = DB.patinadores.map(p=>`  {
+    id:'${p.id}',n:'${p.nombre}',ini:'${p.ini}',gen:'${p.gen}',cat:'${p.cat}',
+    club:'${p.club}',pts:${p.pts},edad:${p.edad},ciudad:'${p.ciudad}',
+    tit:${p.tit},temp:${p.temp},foto:'${p.foto||''}',
+    bio:'${(p.bio||'').replace(/'/g,"\\'")}',
+    logros:${JSON.stringify(Array.isArray(p.logros)?p.logros:(p.logros||'').split(',')).replace(/"/g,"'")}
+  }`).join(',\n');
+  return `/* RollerZone Spain — Ranking MVP — Generado por el panel admin */\nconst PLAYERS=[\n${players}\n];\n\n/* Motor del ranking — no editar */\nconst CC={elite:{bg:'#f5a623',fg:'#1a1200'},estrella:{bg:'#534ab7',fg:'#fff'},promesa:{bg:'#1d9e75',fg:'#fff'}};\nconst CL={elite:'Elite',estrella:'Estrella',promesa:'Promesa'};\nlet selCat='todas',selGen='todos';\nfunction renderRanking(){const cats=selCat==='todas'?['elite','estrella','promesa']:[selCat];const gens=selGen==='todos'?['f','m']:[selGen];let html='';cats.forEach(cat=>{gens.forEach(gen=>{const rows=PLAYERS.filter(d=>d.cat===cat&&d.gen===gen).sort((a,b)=>b.pts-a.pts);if(!rows.length)return;const cc=CC[cat];const gLabel=gen==='f'?'Femenino':'Masculino';const gBg=gen==='f'?'#993556':'#185fa5';html+=\`<div class="cat-block"><div class="cat-hd"><span class="cbadge" style="background:\${cc.bg};color:\${cc.fg}">\${CL[cat]}</span><span class="cbadge" style="background:\${gBg};color:#fff">\${gLabel}</span><span class="ctitle">\${CL[cat]} — \${gLabel}</span><span class="ccount">\${rows.length} patinadores</span></div><div class="tbl"><div class="tr hd"><span>#</span><span></span><span>Patinador/a</span><span>Club</span><span style="text-align:right">Pts</span><span style="text-align:center">País</span></div>\`;rows.forEach((p,i)=>{const rk=i===0?'r1':i===1?'r2':i===2?'r3':'rn';const avHtml=p.foto?\`<img src="\${p.foto}" style="width:32px;height:32px;border-radius:50%;object-fit:cover">\`:\`<div class="av \${p.gen==='f'?'avf':'avm'}">\${p.ini}</div>\`;html+=\`<div class="tr" onclick="showPlayer('\${p.id}')"><div><div class="rk \${rk}">\${i+1}</div></div><div>\${avHtml}</div><div><div class="pn">\${p.n}</div><div class="pc">\${p.ciudad}</div></div><div class="pc">\${p.club}</div><div class="pts">\${p.pts}</div><div style="text-align:center;font-size:17px">🇪🇸</div></div>\`;});html+=\`</div></div>\`;});});if(!html)html=\`<div style="padding:2rem;text-align:center;color:var(--txt3);font-size:13px">No hay patinadores con estos filtros.</div>\`;document.getElementById('rkwrap').innerHTML=html;}function showPlayer(id){const p=PLAYERS.find(d=>d.id===id);if(!p)return;showPage('pg-ranking');document.getElementById('pk-crumb').textContent=p.n;const cc=CC[p.cat];const gLabel=p.gen==='f'?'Femenino':'Masculino';const gBg=p.gen==='f'?'#993556':'#185fa5';const fotoHtml=p.foto?\`<img src="\${p.foto}" style="width:74px;height:74px;border-radius:50%;object-fit:cover;border:2px solid \${cc.bg}">\`:\`<div class="av-xl \${p.gen}" style="border-color:\${cc.bg}">\${p.ini}</div>\`;document.getElementById('pk-content').innerHTML=\`<div class="dhero"><div class="dhero-in"><span class="dtag" style="background:\${cc.bg};color:\${cc.fg}">\${CL[p.cat]}</span><span class="dtag" style="background:\${gBg};color:#fff;margin-left:6px">\${gLabel}</span><h2>\${p.n}</h2><div class="dmeta">\${p.club} · \${p.ciudad} · Temporada 2026</div></div></div><div class="dbody"><div class="prof-card">\${fotoHtml}<div class="pi"><h3>\${p.n}</h3><p>\${p.club}</p><p>\${p.ciudad}, España · \${p.edad} años</p><div class="ptags"><span class="ptag" style="background:\${cc.bg};color:\${cc.fg}">\${CL[p.cat]}</span><span class="ptag" style="background:\${gBg};color:#fff">\${gLabel}</span><span class="ptag ptag-cl">\${p.club}</span></div></div></div><div class="stats-g"><div class="sbox"><span class="sv">\${p.pts}</span><span class="sl">Puntos MVP 2026</span></div><div class="sbox"><span class="sv">\${p.edad}</span><span class="sl">Edad</span></div><div class="sbox"><span class="sv">\${p.tit}</span><span class="sl">Títulos nacionales</span></div><div class="sbox"><span class="sv">\${p.temp}</span><span class="sl">Temporadas</span></div></div><div class="bio-box"><h4>Biografía</h4><p>\${p.bio}</p></div><div class="bio-box"><h4>Palmarés y logros</h4><ul class="logros">\${(Array.isArray(p.logros)?p.logros:[]).map(l=>\`<li>\${l}</li>\`).join('')}</ul></div></div>\`;window.scrollTo(0,0);}document.getElementById('fg-cat').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#fg-cat .pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');selCat=b.dataset.cat;renderRanking();});document.getElementById('fg-gen').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#fg-gen .pill').forEach(x=>x.classList.remove('on'));b.classList.add('on');selGen=b.dataset.gen;renderRanking();});`;
+}
+
+function buildRevistasJS(){
+  const mags = DB.revistas.map(m=>`  {n:${m.n},year:'${m.year}',theme:'${m.theme}',portada:'${m.portada||''}',precio:'${m.precio}',linkPDF:'${m.link||'#'}',sumario:'${(m.sumario||'').replace(/'/g,"\\'")}',current:${!!m.current}}`).join(',\n');
+  return `/* RollerZone Spain — Revistas — Generado por panel admin */\nconst MAGS=[\n${mags}\n];\nfunction buildMagGrid(){const mg=document.getElementById('mag-grid');MAGS.forEach(m=>{const d=document.createElement('div');d.className='mag';const c=m.portada?\`<img src="\${m.portada}" alt="RollerZone N°\${m.n}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">\`:'';d.innerHTML=\`<div class="mcov">\${c}<span class="ml" style="position:relative">RollerZone</span><span class="mn" style="position:relative">N°\${m.n}</span><span class="my" style="position:relative">\${m.year}</span>\${m.current?'<span class="mnew">NUEVO</span>':''}</div><div class="minfo"><h5>\${m.theme}</h5><p>\${m.year}</p></div><div class="mbtns"><button class="bts" onclick="event.stopPropagation();showMag(\${m.n})">Ver</button><button class="bts btbuy" onclick="event.stopPropagation();showMag(\${m.n})">Comprar</button></div>\`;d.onclick=()=>showMag(m.n);mg.appendChild(d);});}function showMag(n){const m=MAGS.find(x=>x.n===n);if(!m)return;showPage('pg-detail');document.getElementById('d-section').textContent='Revistas';document.getElementById('d-title-crumb').textContent=\`RollerZone N°\${n}\`;document.getElementById('d-back-btn').onclick=goHome;const c=m.portada?\`<img src="\${m.portada}" alt="RollerZone N°\${n}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">\`:'';document.getElementById('d-content').innerHTML=\`<div class="dhero"><div class="dhero-in"><span class="dtag" style="background:var(--acc);color:#1a1200">Revista impresa y digital</span><h2>RollerZone N°\${n} — \${m.theme}</h2><div class="dmeta">\${m.year}\${m.current?' · Número actual':''} · \${m.precio} € formato digital</div></div></div><div class="dbody"><div class="mag-dcov" style="background:#1a1200">\${c}<span class="ml">RollerZone Spain</span><span class="mn">N°\${n}</span><span class="ml">\${m.year}</span>\${m.current?'<span style="background:var(--acc);color:#1a1200;font-size:11px;font-weight:500;padding:3px 12px;border-radius:10px;position:relative">NÚMERO ACTUAL</span>':''}</div><div class="bio-box"><h4>Sumario del número \${n}</h4><p>\${m.sumario}</p></div><div class="buy-blk"><div><p>Comprar RollerZone N°\${n} en formato digital (PDF)</p><small>Descarga inmediata · Alta resolución · \${m.precio} €</small></div><button class="buy-btn" onclick="window.open('\${m.linkPDF}','_blank')">Comprar PDF — \${m.precio} € →</button></div>\${n<MAGS.length?\`<div style="margin-top:1rem;text-align:center"><button class="dback" style="font-size:13px;padding:6px 16px" onclick="showMag(\${n+1})">Ver siguiente: N°\${n+1} →</button></div>\`:''}</div>\`;window.scrollTo(0,0);}`;
+}
+
+function buildDataJS(){
+  return `/* RollerZone Spain — Datos web — Generado por panel admin */\nconst WEB_DATA=${JSON.stringify({noticias:DB.noticias,eventos:DB.eventos,entrevistas:DB.entrevistas,clubs:DB.clubs,sponsors:DB.sponsors},null,2)};`;
+}
+
+/* ════════════════════════════════════════
+   CONFIG
+   ════════════════════════════════════════ */
+function saveConfig(){
+  const pw=document.getElementById('cfg-pw').value;
+  const token=document.getElementById('cfg-token').value.trim();
+  const repo=document.getElementById('cfg-repo').value.trim();
+  const branch=document.getElementById('cfg-branch').value.trim()||'main';
+  if(pw) CFG.pw=pw;
+  if(token){ CFG.token=token; localStorage.setItem('rz_token',token); }
+  if(repo){ CFG.repo=repo; localStorage.setItem('rz_repo',repo); }
+  CFG.branch=branch;
+  toast('Configuración guardada ✓','ok');
+}
+
+/* ════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════ */
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  const el=document.createElement('div');
+  el.className=`toast-msg ${type}`;
+  el.innerHTML=`<div class="toast-dot"></div>${msg}`;
+  t.appendChild(el);
+  setTimeout(()=>el.remove(),3500);
+}
+
+/* ════════════════════════════════════════
+   UTILS
+   ════════════════════════════════════════ */
+function esc(s){ return (s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+/* ════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded',()=>{
+  const t=localStorage.getItem('rz_token');
+  const r=localStorage.getItem('rz_repo');
+  if(t) document.getElementById('gh-token').value=t;
+  if(r) document.getElementById('gh-repo').value=r;
+  document.getElementById('cfg-token').value=t||'';
+  document.getElementById('cfg-repo').value=r||'';
+});
+</script>
+</body>
+</html>

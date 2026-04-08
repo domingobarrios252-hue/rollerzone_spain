@@ -1,164 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RollerZone Spain — Patinaje de Velocidad</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#1e1e1e;--bg2:#272727;--bg3:#2f2f2f;--bg4:#383030;--acc:#f5a623;--acc2:#e8891a;--acd:#3a2800;--txt:#f0ece4;--txt2:#b0a99a;--txt3:#6e6860;--brd:#383530;--brd2:#4a4540}
-body{font-family:var(--font-sans);background:var(--bg);color:var(--txt)}
-.page{display:none}.page.on{display:block}
-.nav{background:#161616;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:50}
-.logo{display:flex;align-items:center;gap:9px;cursor:pointer}
-.lbox{width:34px;height:34px;background:var(--acc);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:12px;color:#1a1200}
-.ltxt{color:var(--txt);font-size:16px;font-weight:500}.ltxt em{color:var(--acc);font-style:normal}
-.nav-links{display:flex;gap:1rem;flex-wrap:wrap}
-.nav-links a{color:var(--txt2);font-size:12px;text-decoration:none;cursor:pointer;transition:color .15s;white-space:nowrap;padding:3px 0;border-bottom:2px solid transparent}
-.nav-links a:hover{color:var(--acc);border-bottom-color:var(--acc)}
-.ticker{background:var(--acc);color:#1a1200;padding:7px 0;overflow:hidden;white-space:nowrap;font-size:12px;font-weight:500}
-.ticker span{display:inline-block;animation:scroll 38s linear infinite}
-@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.hero-band{background:#161616;padding:2.25rem 1.25rem;border-bottom:1px solid var(--brd)}
-.hero-band h1{font-size:28px;font-weight:500;color:var(--txt);line-height:1.2}
-.hero-band h1 em{color:var(--acc);font-style:normal}
-.hero-band p{font-size:13px;color:var(--txt3);margin-top:5px}
-.sec{padding:1.75rem 1.25rem;max-width:1000px;margin:0 auto}
-.sh{display:flex;align-items:center;gap:9px;margin-bottom:1.1rem;padding-bottom:.55rem;border-bottom:1px solid var(--brd)}
-.stag{background:var(--acc);color:#1a1200;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
-.stitle{font-size:17px;font-weight:500;color:var(--txt)}
-.divider{height:1px;background:var(--brd);margin:0 1.25rem}
-.card{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s}
-.card:hover{border-color:var(--acc)}
-.pill{padding:5px 13px;border:1px solid var(--brd2);border-radius:20px;font-size:12px;cursor:pointer;background:transparent;color:var(--txt2);transition:all .15s;white-space:nowrap}
-.pill:hover{border-color:var(--acc);color:var(--acc)}
-.pill.on{background:var(--acc);color:#1a1200;border-color:var(--acc);font-weight:500}
-.pill.fem.on{background:#993556;color:#fff;border-color:#993556}
-.pill.masc.on{background:#185fa5;color:#fff;border-color:#185fa5}
-.badge-int{background:var(--acc);color:#1a1200;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500}
-.badge-nat{background:var(--acd);color:var(--acc);border:1px solid #5a3d00;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500}
-.news-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.1rem}
-.news-img{height:175px;background:#222;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid var(--brd)}
-.abs{position:absolute;top:10px;left:10px}
-.nicon{font-size:40px;opacity:.15;color:var(--acc)}
-.nbody{padding:.9rem}
-.nbody h3{font-size:13.5px;font-weight:500;color:var(--txt);line-height:1.4;margin-bottom:5px}
-.nbody p{font-size:12px;color:var(--txt2);line-height:1.55}
-.nmeta{font-size:11px;color:var(--txt3);margin-top:7px}
-.nsidebar{display:flex;flex-direction:column;gap:.85rem}
-.mini{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:.9rem;cursor:pointer;transition:border-color .15s}
-.mini:hover{border-color:var(--acc)}
-.mini h4{font-size:12.5px;font-weight:500;color:var(--txt);line-height:1.4;margin-bottom:3px}
-.mini p{font-size:11px;color:var(--txt3)}
-.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.9rem}
-.ev{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1rem;cursor:pointer;transition:border-color .15s}
-.ev:hover{border-color:var(--acc)}
-.ev-date{width:46px;height:50px;background:var(--acc);border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:9px}
-.ev-day{font-size:19px;font-weight:500;color:#1a1200;line-height:1}
-.ev-mon{font-size:9px;text-transform:uppercase;color:#1a1200;letter-spacing:.05em}
-.ev h4{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:3px}
-.ev p{font-size:11.5px;color:var(--txt2)}
-.ranking-wrap{max-width:1000px;margin:0 auto}
-.fbar{padding:1rem 1.25rem;background:var(--bg2);border-bottom:1px solid var(--brd);display:flex;flex-wrap:wrap;gap:9px;align-items:center}
-.flbl{font-size:11px;color:var(--txt3);align-self:center;white-space:nowrap}
-.fsep{width:1px;height:26px;background:var(--brd2);align-self:center}
-.cat-block{padding:1.25rem;border-bottom:1px solid var(--brd)}
-.cat-block:last-child{border-bottom:none}
-.cat-hd{display:flex;align-items:center;gap:8px;margin-bottom:.9rem}
-.cbadge{font-size:10px;font-weight:500;padding:2px 9px;border-radius:4px;text-transform:uppercase;letter-spacing:.05em}
-.ctitle{font-size:15px;font-weight:500;color:var(--txt)}
-.ccount{font-size:11.5px;color:var(--txt3);margin-left:auto}
-.tbl{background:var(--bg3);border:1px solid var(--brd);border-radius:9px;overflow:hidden}
-.tr{display:grid;align-items:center;padding:9px 1rem;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .12s;gap:9px;grid-template-columns:30px 34px 1fr 1fr 75px 46px}
-.tr:last-child{border-bottom:none}
-.tr:hover{background:var(--bg4)}
-.tr.hd{background:var(--bg4);cursor:default}
-.tr.hd:hover{background:var(--bg4)}
-.tr.hd span{font-size:10px;color:var(--txt3);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
-.rk{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
-.r1{background:var(--acc);color:#1a1200}.r2{background:#888;color:#fff}.r3{background:#7a5c3a;color:#f5e6d0}.rn{background:var(--bg);color:var(--txt2)}
-.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:500;flex-shrink:0}
-.avf{background:#4b1528;color:#ed93b1}.avm{background:#042c53;color:#85b7eb}
-.pn{font-size:13px;font-weight:500;color:var(--txt)}.pc{font-size:11px;color:var(--txt2)}
-.pts{font-size:13.5px;font-weight:500;color:var(--acc);text-align:right}
-.int-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
-.iphoto{height:148px;background:#222;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid var(--brd)}
-.iphoto-cap{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);padding:5px 9px}
-.iphoto-cap p{color:var(--txt);font-size:11px;font-weight:500}
-.ibody{padding:.9rem}
-.ibody h4{font-size:13px;font-weight:500;color:var(--txt);line-height:1.4;margin-bottom:4px}
-.ibody p{font-size:11.5px;color:var(--txt2);line-height:1.5}
-.itag{font-size:10px;padding:2px 8px;border-radius:4px;margin-top:7px;display:inline-block;font-weight:500;background:var(--acd);color:var(--acc)}
-.mag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem}
-.mag{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .15s;text-align:center}
-.mag:hover{border-color:var(--acc)}
-.mcov{height:185px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;background:#1a1200}
-.mcov .ml{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em}
-.mcov .mn{font-size:28px;font-weight:500;color:#fff}
-.mcov .my{font-size:9.5px;color:rgba(255,255,255,.55)}
-.mnew{position:absolute;top:7px;right:7px;background:var(--acc);color:#1a1200;font-size:9px;font-weight:500;padding:2px 7px;border-radius:10px}
-.minfo{padding:7px 9px;border-bottom:1px solid var(--brd)}
-.minfo h5{font-size:12px;font-weight:500;color:var(--txt)}.minfo p{font-size:10.5px;color:var(--txt3)}
-.mbtns{display:flex;gap:4px;padding:7px 7px}
-.bts{flex:1;font-size:10.5px;padding:5px 2px;border:1px solid var(--brd2);border-radius:6px;cursor:pointer;background:transparent;color:var(--txt2);transition:all .15s}
-.bts:hover{border-color:var(--acc);color:var(--acc)}
-.btbuy{background:var(--acc);color:#1a1200;border-color:var(--acc);font-weight:500}
-.btbuy:hover{background:var(--acc2);color:#1a1200}
-.clubs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.9rem}
-.club{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1rem;cursor:pointer;transition:border-color .15s}
-.club:hover{border-color:var(--acc)}
-.clav{width:40px;height:40px;border-radius:50%;background:var(--acd);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:500;color:var(--acc);margin-bottom:7px}
-.club h4{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:3px}
-.club p{font-size:11.5px;color:var(--txt2)}.club small{font-size:10.5px;color:var(--txt3)}
-.spon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.9rem}
-.spon{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90px;cursor:pointer;transition:border-color .15s;gap:7px}
-.spon:hover{border-color:var(--acc)}
-.spon-logo{width:46px;height:46px;border-radius:8px;background:var(--acd);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--acc)}
-.spon p{font-size:11px;color:var(--txt2);text-align:center}
-.footer{background:#161616;color:var(--txt3);text-align:center;padding:1.5rem;font-size:12px;border-top:1px solid var(--brd);margin-top:2rem}
-.footer strong{color:var(--acc)}
-.dpage{background:var(--bg);min-height:600px}
-.dnavbar{background:#161616;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid var(--brd)}
-.dback{background:var(--acd);color:var(--acc);border:1px solid var(--brd2);border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer;transition:all .15s}
-.dback:hover{background:var(--acc);color:#1a1200}
-.dcrumb-bar{padding:.85rem 1.25rem;background:var(--bg2);border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:10px}
-.dcrumb{font-size:11.5px;color:var(--txt3)}.dcrumb em{color:var(--acc);font-style:normal}
-.dhero{background:#161616;padding:1.4rem 1.25rem;border-bottom:1px solid var(--brd)}
-.dhero-in{max-width:900px;margin:0 auto}
-.dtag{display:inline-block;font-size:10px;font-weight:500;padding:2px 9px;border-radius:4px;margin-bottom:9px;text-transform:uppercase;letter-spacing:.06em}
-.dhero h2{font-size:21px;font-weight:500;color:var(--txt);line-height:1.3}
-.dhero .dmeta{font-size:12px;color:var(--txt3);margin-top:5px}
-.dbody{max-width:900px;margin:0 auto;padding:1.4rem 1.25rem}
-.prof-card{background:var(--bg2);border:1px solid var(--brd);border-radius:11px;padding:1.25rem;display:flex;gap:1.1rem;align-items:flex-start;margin-bottom:1.25rem;flex-wrap:wrap}
-.av-xl{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:500;flex-shrink:0;border:2px solid var(--acc)}
-.av-xl.f{background:#4b1528;color:#ed93b1}.av-xl.m{background:#042c53;color:#85b7eb}
-.pi h3{font-size:19px;font-weight:500;color:var(--txt);margin-bottom:4px}
-.pi p{font-size:12.5px;color:var(--txt2);margin-top:2px}
-.ptags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.ptag{font-size:10.5px;padding:2px 8px;border-radius:4px;font-weight:500}
-.ptag-cl{background:var(--bg3);color:var(--txt2);border:1px solid var(--brd2)}
-.stats-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.75rem;margin-bottom:1.25rem}
-.sbox{background:var(--bg2);border:1px solid var(--brd);border-radius:8px;padding:.9rem;text-align:center}
-.sv{font-size:21px;font-weight:500;color:var(--acc);display:block}
-.sl{font-size:11px;color:var(--txt3);margin-top:2px;display:block}
-.bio-box{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1.1rem;margin-bottom:1rem}
-.bio-box h4{font-size:12.5px;font-weight:500;color:var(--acc);margin-bottom:.55rem}
-.bio-box p{font-size:13px;color:var(--txt2);line-height:1.75}
-.logros{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:.4rem}
-.logros li{font-size:12.5px;color:var(--txt2);padding-left:13px;position:relative}
-.logros li::before{content:'›';position:absolute;left:0;color:var(--acc)}
-.det-img{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;height:190px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
-.det-ico{font-size:44px;opacity:.14;color:var(--acc)}
-.det-txt{font-size:13.5px;color:var(--txt2);line-height:1.8;margin-bottom:1rem}
-.det-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem;margin-top:1.25rem}
-.mag-dcov{height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border-radius:10px;margin-bottom:1.25rem;border:1px solid var(--brd)}
-.mag-dcov .mn{font-size:48px;font-weight:500;color:#fff}
-.mag-dcov .ml{font-size:10px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em}
-.buy-blk{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1.1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-top:1.25rem}
-.buy-blk p{font-size:13.5px;color:var(--txt)}
-.buy-blk small{font-size:11.5px;color:var(--txt3);display:block;margin-top:2px}
-.buy-btn{background:var(--acc);color:#1a1200;border:none;border-radius:7px;padding:9px 20px;font-size:13.5px;font-weight:500;cursor:pointer;transition:background .15s}
-.buy-btn:hover{background:var(--acc2)}
-</style>
-
-<div id="pg-home" class="page on">
+<!-- ═══════════════════════════════════════
+     NAVEGACIÓN PRINCIPAL
+     Para editar: cambia el texto de los <a>
+     Para añadir sección: duplica un <a> y cambia href="#id-nueva-seccion"
+════════════════════════════════════════ -->
 <nav class="nav">
-  <div class="logo" onclick="goHome()"><div class="lbox">RZ</div><span class="ltxt">Roller<em>Zone</em> Spain</span></div>
+  <div class="logo" onclick="goHome()">
+    <div class="lbox">RZ</div>
+    <span class="ltxt">Roller<em>Zone</em> Spain</span>
+  </div>
   <div class="nav-links">
     <a onclick="scr('noticias')">Noticias</a>
     <a onclick="scr('eventos')">Eventos</a>
@@ -169,50 +28,192 @@ body{font-family:var(--font-sans);background:var(--bg);color:var(--txt)}
     <a onclick="scr('sponsors')">Patrocinadores</a>
   </div>
 </nav>
-<div class="ticker"><span>&#9733; España: 3 medallas Campeonato de Europa &nbsp;&#9733; Copa España Senior — Madrid 19 Abr &nbsp;&#9733; RollerZone N°7 ya disponible &nbsp;&#9733; MVP: Lucía Méndez lidera 2026 &nbsp;&#9733; World Skate Games — Medellín, Colombia &nbsp;&#9733; Nuevo ranking promesa: Carlos Ortega N°1 &nbsp;&#9733; España: 3 medallas Campeonato de Europa &nbsp;&#9733; Copa España Senior — Madrid 19 Abr &nbsp;&#9733; RollerZone N°7 ya disponible &nbsp;&#9733; MVP: Lucía Méndez lidera 2026 &nbsp;</span></div>
-<div class="hero-band"><div style="max-width:1000px;margin:0 auto"><h1>La voz del patinaje<br>de velocidad <em>en España</em></h1><p>Noticias, eventos, rankings, entrevistas y revistas — todo sobre la velocidad sobre ruedas</p></div></div>
 
-<div id="noticias" class="sec">
-  <div class="sh"><span class="stag">Noticias</span><span class="stitle">Última hora</span></div>
+<!-- ═══════════════════════════════════════
+     TICKER DE NOTICIAS
+     Para editar: cambia el texto entre las ★
+     Para añadir: copia el patrón ★ Texto &nbsp;
+════════════════════════════════════════ -->
+<div class="ticker">
+  <span id="ticker-content">
+    ★ España: 3 medallas Campeonato de Europa &nbsp;
+    ★ Copa España Senior — Madrid 19 Abr &nbsp;
+    ★ RollerZone N°7 ya disponible &nbsp;
+    ★ MVP: Lucía Méndez lidera 2026 &nbsp;
+    ★ World Skate Games — Medellín, Colombia &nbsp;
+    ★ Nuevo ranking promesa: Carlos Ortega N°1 &nbsp;
+    ★ España: 3 medallas Campeonato de Europa &nbsp;
+    ★ Copa España Senior — Madrid 19 Abr &nbsp;
+    ★ RollerZone N°7 ya disponible &nbsp;
+  </span>
+</div>
+
+<!-- HERO -->
+<div class="hero-band">
+  <div style="max-width:1000px;margin:0 auto">
+    <h1>La voz del patinaje<br>de velocidad <em>en España</em></h1>
+    <p>Noticias, eventos, rankings, entrevistas y revistas — todo sobre la velocidad sobre ruedas</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SECCIÓN NOTICIAS
+     Para añadir una noticia DESTACADA:
+       1. Cambia el contenido del div.card principal
+       2. Edita: onclick="det('noticia','TÍTULO','Categoría','Fecha','Cuerpo completo','Autor')"
+     Para añadir noticia MINI (columna derecha):
+       Duplica uno de los div.mini y edita su contenido
+════════════════════════════════════════ -->
+<section id="noticias" class="sec">
+  <div class="sh">
+    <span class="stag">Noticias</span>
+    <span class="stitle">Última hora</span>
+  </div>
   <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1rem">
-    <button class="pill on" onclick="tabClick(this,'.tab-btn')">Todas</button>
-    <button class="pill tab-btn" onclick="tabClick(this,'.tab-btn')">Nacional</button>
-    <button class="pill tab-btn" onclick="tabClick(this,'.tab-btn')">Internacional</button>
+    <button class="pill on" onclick="tabClick(this,'.tab-noticia')">Todas</button>
+    <button class="pill tab-noticia" onclick="tabClick(this,'.tab-noticia')">Nacional</button>
+    <button class="pill tab-noticia" onclick="tabClick(this,'.tab-noticia')">Internacional</button>
   </div>
   <div class="news-grid">
-    <div class="card" onclick="det('noticia','España arrasa en el Campeonato de Europa: tres medallas','Internacional','5 Abril 2026','La selección española protagonizó una actuación histórica en Holanda, con tres podios en las pruebas más exigentes del campeonato continental. Las patinadoras del equipo femenino brillaron en el relevo mientras los absolutos masculinos dominaron la velocidad individual.','Redacción RollerZone')">
-      <div class="news-img"><span class="abs badge-int">Internacional</span><div class="nicon">⛸</div></div>
-      <div class="nbody"><h3>España arrasa en el Campeonato de Europa: tres medallas en categoría absoluta</h3><p>La selección española protagonizó una actuación histórica en Holanda con tres podios en las pruebas más exigentes.</p><div class="nmeta">5 Abril 2026 · Redacción RollerZone</div></div>
+
+    <!-- NOTICIA DESTACADA -->
+    <div class="card" onclick="det('noticia',
+      'España arrasa en el Campeonato de Europa: tres medallas',
+      'Internacional',
+      '5 Abril 2026',
+      'La selección española protagonizó una actuación histórica en Holanda, con tres podios en las pruebas más exigentes del campeonato continental. Las patinadoras del equipo femenino brillaron en el relevo mientras los absolutos masculinos dominaron la velocidad individual.',
+      'Redacción RollerZone')">
+      <div class="news-img">
+        <!-- Para poner imagen real: cambia el div.nicon por:
+             <img src="img/noticias/europa2026.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <span class="abs badge-int">Internacional</span>
+        <div class="nicon">⛸</div>
+      </div>
+      <div class="nbody">
+        <h3>España arrasa en el Campeonato de Europa: tres medallas en categoría absoluta</h3>
+        <p>La selección española protagonizó una actuación histórica en Holanda con tres podios en las pruebas más exigentes.</p>
+        <div class="nmeta">5 Abril 2026 · Redacción RollerZone</div>
+      </div>
     </div>
+
+    <!-- NOTICIAS MINI -->
     <div class="nsidebar">
-      <div class="mini" onclick="det('noticia','Copa de España 2026: todo listo para la primera prueba en Madrid','Nacional','3 Abril 2026','Primera prueba puntuable Copa de España Senior 2026, el 19 de abril en el Palacio de los Deportes de Madrid. Más de 200 patinadores inscritos en todas las categorías.','Redacción RollerZone')"><span class="badge-nat" style="font-size:10px;margin-bottom:5px;display:inline-block">Nacional</span><h4>Copa de España 2026: todo listo para la primera prueba en Madrid</h4><p>3 Abril 2026</p></div>
-      <div class="mini" onclick="det('noticia','Confirmado el calendario del Mundial 2026 en Colombia','Internacional','1 Abril 2026','World Skate confirma el Campeonato del Mundo en Medellín del 12 al 20 de junio. España prevé su mayor delegación histórica con más de 20 patinadores clasificados.','Redacción RollerZone')"><span class="badge-int" style="font-size:10px;margin-bottom:5px;display:inline-block">Internacional</span><h4>Confirmado el calendario del Mundial de Velocidad 2026 en Colombia</h4><p>1 Abril 2026</p></div>
-      <div class="mini" onclick="det('noticia','Revolución junior: nuevas promesas lideran la clasificación sub-17','Nacional','28 Mar 2026','La nueva generación de patinadores sub-17 toma el relevo con resultados sorprendentes en las primeras pruebas del circuito junior.','Redacción RollerZone')"><span class="badge-nat" style="font-size:10px;margin-bottom:5px;display:inline-block">Nacional</span><h4>Revolución junior: nuevas promesas lideran la clasificación sub-17</h4><p>28 Mar 2026</p></div>
+
+      <div class="mini" onclick="det('noticia',
+        'Copa de España 2026: todo listo para la primera prueba en Madrid',
+        'Nacional','3 Abril 2026',
+        'Primera prueba puntuable Copa de España Senior 2026, el 19 de abril en el Palacio de los Deportes de Madrid. Más de 200 patinadores inscritos en todas las categorías.',
+        'Redacción RollerZone')">
+        <span class="badge-nat" style="font-size:10px;margin-bottom:5px;display:inline-block">Nacional</span>
+        <h4>Copa de España 2026: todo listo para la primera prueba en Madrid</h4>
+        <p>3 Abril 2026</p>
+      </div>
+
+      <div class="mini" onclick="det('noticia',
+        'Confirmado el calendario del Mundial 2026 en Colombia',
+        'Internacional','1 Abril 2026',
+        'World Skate confirma el Campeonato del Mundo en Medellín del 12 al 20 de junio. España prevé su mayor delegación histórica con más de 20 patinadores clasificados.',
+        'Redacción RollerZone')">
+        <span class="badge-int" style="font-size:10px;margin-bottom:5px;display:inline-block">Internacional</span>
+        <h4>Confirmado el calendario del Mundial de Velocidad 2026 en Colombia</h4>
+        <p>1 Abril 2026</p>
+      </div>
+
+      <div class="mini" onclick="det('noticia',
+        'Revolución junior: nuevas promesas lideran la clasificación sub-17',
+        'Nacional','28 Mar 2026',
+        'La nueva generación de patinadores sub-17 toma el relevo con resultados sorprendentes en las primeras pruebas del circuito junior.',
+        'Redacción RollerZone')">
+        <span class="badge-nat" style="font-size:10px;margin-bottom:5px;display:inline-block">Nacional</span>
+        <h4>Revolución junior: nuevas promesas lideran la clasificación sub-17</h4>
+        <p>28 Mar 2026</p>
+      </div>
+
+    </div><!-- /nsidebar -->
+  </div><!-- /news-grid -->
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECCIÓN EVENTOS
+     Para AÑADIR un evento: copia un div.ev completo y edita:
+       - ev-day y ev-mon: día y mes
+       - h4: nombre del evento
+       - p: lugar
+       - badge-nat o badge-int: Nacional o Internacional
+       - onclick: parámetros del detalle
+     Para ELIMINAR: borra el div.ev completo
+════════════════════════════════════════ -->
+<section id="eventos" class="sec">
+  <div class="sh">
+    <span class="stag">Agenda</span>
+    <span class="stitle">Próximos eventos</span>
+  </div>
+  <div class="ev-grid">
+
+    <div class="ev" onclick="det('evento','Copa de España Senior — Prueba 1','Nacional','19 Abr 2026','Palacio de los Deportes, Madrid. Primera prueba puntuable Copa de España Senior 2026. Inscripción abierta hasta el 15 de abril para todas las categorías absolutas y veteranas.','')">
+      <div class="ev-date"><span class="ev-day">19</span><span class="ev-mon">Abr</span></div>
+      <h4>Copa de España Senior — Prueba 1</h4>
+      <p>Palacio de los Deportes, Madrid</p>
+      <span class="badge-nat" style="margin-top:8px;display:inline-block">Nacional</span>
+    </div>
+
+    <div class="ev" onclick="det('evento','Campeonato de Europa Inline — Barcelona','Internacional','3 May 2026','Circuit de la Barceloneta, Barcelona. La ciudad condal acoge por primera vez el Campeonato de Europa Inline. España llega como favorita tras el éxito en Holanda.','')">
+      <div class="ev-date"><span class="ev-day">3</span><span class="ev-mon">May</span></div>
+      <h4>Campeonato de Europa Inline — Barcelona</h4>
+      <p>Circuit de la Barceloneta, BCN</p>
+      <span class="badge-int" style="margin-top:8px;display:inline-block">Internacional</span>
+    </div>
+
+    <div class="ev" onclick="det('evento','Gran Premio de Asturias','Nacional','17 May 2026','Pista cubierta de Oviedo. Prueba puntuable circuito regional norte. Abierta de benjamín a absoluta.','')">
+      <div class="ev-date"><span class="ev-day">17</span><span class="ev-mon">May</span></div>
+      <h4>Gran Premio de Asturias</h4>
+      <p>Pista cubierta, Oviedo</p>
+      <span class="badge-nat" style="margin-top:8px;display:inline-block">Nacional</span>
+    </div>
+
+    <div class="ev" onclick="det('evento','World Skate Games 2026','Internacional','12 Jun 2026','Medellín, Colombia. El mayor evento del patinaje mundial reúne atletas de más de 60 países. España presenta su mayor delegación histórica.','')">
+      <div class="ev-date"><span class="ev-day">12</span><span class="ev-mon">Jun</span></div>
+      <h4>World Skate Games 2026</h4>
+      <p>Medellín, Colombia</p>
+      <span class="badge-int" style="margin-top:8px;display:inline-block">Internacional</span>
+    </div>
+
+    <div class="ev" onclick="det('evento','Campeonato de España Junior','Nacional','28 Jun 2026','Pista polideportiva, Zaragoza. Categorías sub-14, sub-17 y sub-20 masculino y femenino.','')">
+      <div class="ev-date"><span class="ev-day">28</span><span class="ev-mon">Jun</span></div>
+      <h4>Campeonato de España Junior</h4>
+      <p>Pista polideportiva, Zaragoza</p>
+      <span class="badge-nat" style="margin-top:8px;display:inline-block">Nacional</span>
+    </div>
+
+    <div class="ev" onclick="det('evento','Maratón Internacional Donostia','Internacional','20 Sep 2026','Paseo Marítimo, San Sebastián. El maratón más importante del norte de España. Circuito 10 km por el paseo marítimo.','')">
+      <div class="ev-date"><span class="ev-day">20</span><span class="ev-mon">Sep</span></div>
+      <h4>Maratón Internacional Donostia</h4>
+      <p>Paseo Marítimo, San Sebastián</p>
+      <span class="badge-int" style="margin-top:8px;display:inline-block">Internacional</span>
+    </div>
+
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECCIÓN RANKING MVP
+     Los datos están en js/ranking.js
+     Edita ese archivo para añadir/modificar patinadores
+════════════════════════════════════════ -->
+<section id="mvp">
+  <div class="sec" style="padding-bottom:.5rem">
+    <div class="sh">
+      <span class="stag">Ranking</span>
+      <span class="stitle">Ranking MVP RollerZone 2026</span>
     </div>
   </div>
-</div>
-<div class="divider"></div>
-
-<div id="eventos" class="sec">
-  <div class="sh"><span class="stag">Agenda</span><span class="stitle">Próximos eventos</span></div>
-  <div class="ev-grid">
-    <div class="ev" onclick="det('evento','Copa de España Senior — Prueba 1','Nacional','19 Abr 2026','Palacio de los Deportes, Madrid. Primera prueba puntuable Copa de España Senior 2026. Inscripción abierta hasta el 15 de abril para todas las categorías absolutas y veteranas.','')"><div class="ev-date"><span class="ev-day">19</span><span class="ev-mon">Abr</span></div><h4>Copa de España Senior — Prueba 1</h4><p>Palacio de los Deportes, Madrid</p><span class="badge-nat" style="margin-top:8px;display:inline-block">Nacional</span></div>
-    <div class="ev" onclick="det('evento','Campeonato de Europa Inline — Barcelona','Internacional','3 May 2026','Circuit de la Barceloneta, Barcelona. La ciudad condal acoge por primera vez el Campeonato de Europa Inline. España llega como favorita tras el éxito en Holanda.','')"><div class="ev-date"><span class="ev-day">3</span><span class="ev-mon">May</span></div><h4>Campeonato de Europa Inline — Barcelona</h4><p>Circuit de la Barceloneta, BCN</p><span class="badge-int" style="margin-top:8px;display:inline-block">Internacional</span></div>
-    <div class="ev" onclick="det('evento','Gran Premio de Asturias','Nacional','17 May 2026','Pista cubierta de Oviedo. Prueba puntuable circuito regional norte. Abierta de benjamín a absoluta. Inscripciones vía federación asturiana.','')"><div class="ev-date"><span class="ev-day">17</span><span class="ev-mon">May</span></div><h4>Gran Premio de Asturias</h4><p>Pista cubierta, Oviedo</p><span class="badge-nat" style="margin-top:8px;display:inline-block">Nacional</span></div>
-    <div class="ev" onclick="det('evento','World Skate Games 2026','Internacional','12 Jun 2026','Medellín, Colombia. El mayor evento del patinaje mundial reúne atletas de más de 60 países. España presenta su mayor delegación histórica.','')"><div class="ev-date"><span class="ev-day">12</span><span class="ev-mon">Jun</span></div><h4>World Skate Games 2026</h4><p>Medellín, Colombia</p><span class="badge-int" style="margin-top:8px;display:inline-block">Internacional</span></div>
-    <div class="ev" onclick="det('evento','Campeonato de España Junior','Nacional','28 Jun 2026','Pista polideportiva, Zaragoza. Categorías sub-14, sub-17 y sub-20 masculino y femenino. Los mejores juniors de todas las comunidades.','')"><div class="ev-date"><span class="ev-day">28</span><span class="ev-mon">Jun</span></div><h4>Campeonato de España Junior</h4><p>Pista polideportiva, Zaragoza</p><span class="badge-nat" style="margin-top:8px;display:inline-block">Nacional</span></div>
-    <div class="ev" onclick="det('evento','Maratón Internacional Donostia','Internacional','20 Sep 2026','Paseo Marítimo, San Sebastián. El maratón más importante del norte de España. Circuito 10 km por el paseo marítimo, salida y llegada en el Kursaal.','')"><div class="ev-date"><span class="ev-day">20</span><span class="ev-mon">Sep</span></div><h4>Maratón Internacional Donostia</h4><p>Paseo Marítimo, San Sebastián</p><span class="badge-int" style="margin-top:8px;display:inline-block">Internacional</span></div>
-  </div>
-</div>
-<div class="divider"></div>
-
-<div id="mvp">
-  <div class="sec" style="padding-bottom:.5rem"><div class="sh"><span class="stag">Ranking</span><span class="stitle">Ranking MVP RollerZone 2026</span></div></div>
   <div class="fbar">
     <span class="flbl">Categoría:</span>
     <div style="display:flex;gap:5px;flex-wrap:wrap" id="fg-cat">
       <button class="pill on" data-cat="todas">Todas</button>
-      <button class="pill" data-cat="elite" style="">Elite</button>
+      <button class="pill" data-cat="elite">Elite</button>
       <button class="pill" data-cat="estrella">Estrella</button>
       <button class="pill" data-cat="promesa">Promesa</button>
     </div>
@@ -224,322 +225,229 @@ body{font-family:var(--font-sans);background:var(--bg);color:var(--txt)}
       <button class="pill masc" data-gen="m">Masculino</button>
     </div>
   </div>
-  <div class="ranking-wrap"><div id="rkwrap"></div></div>
-</div>
+  <div style="max-width:1000px;margin:0 auto">
+    <div id="rkwrap"></div>
+  </div>
+</section>
 <div class="divider"></div>
 
-<div id="entrevistas" class="sec">
-  <div class="sh"><span class="stag">Entrevistas</span><span class="stitle">Cara a cara</span></div>
+<!-- ═══════════════════════════════════════
+     SECCIÓN ENTREVISTAS
+     Para AÑADIR entrevista: copia un div.card completo
+     Para imagen real: sustituye div.av-xl por <img src="img/entrevistas/nombre.jpg">
+════════════════════════════════════════ -->
+<section id="entrevistas" class="sec">
+  <div class="sh">
+    <span class="stag">Entrevistas</span>
+    <span class="stitle">Cara a cara</span>
+  </div>
   <div class="int-grid">
-    <div class="card" onclick="det('entrevista','\"Entreno 6 horas al día porque el sueño olímpico no espera\"','Patinadora · Lucía Méndez','CD Velocidad Asturias','La asturiana, líder del ranking MVP Elite, nos abre las puertas de su vida diaria, rutinas de entrenamiento y sus ambiciones para el Mundial de Colombia 2026. Una conversación franca sobre sacrificio, familia y la búsqueda de la perfección.','LM')">
-      <div class="iphoto"><div class="av-xl f" style="width:58px;height:58px;font-size:18px">LM</div><div class="iphoto-cap"><p>Lucía Méndez — Campeona Nacional</p></div></div>
-      <div class="ibody"><h4>"Entreno 6 horas al día porque el sueño olímpico no espera"</h4><p>La líder del ranking Elite habla de sacrificio y ambición de cara al Mundial.</p><span class="itag">Patinadora</span></div>
+
+    <div class="card" onclick="det('entrevista',
+      '\"Entreno 6 horas al día porque el sueño olímpico no espera\"',
+      'Patinadora · Lucía Méndez',
+      'CD Velocidad Asturias',
+      'La asturiana, líder del ranking MVP Elite, nos abre las puertas de su vida diaria, rutinas de entrenamiento y sus ambiciones para el Mundial de Colombia 2026.',
+      'LM')">
+      <div class="iphoto">
+        <!-- Imagen real: <img src="img/entrevistas/lucia-mendez.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <div class="av-xl f" style="width:58px;height:58px;font-size:18px">LM</div>
+        <div class="iphoto-cap"><p>Lucía Méndez — Campeona Nacional</p></div>
+      </div>
+      <div class="ibody">
+        <h4>"Entreno 6 horas al día porque el sueño olímpico no espera"</h4>
+        <p>La líder del ranking Elite habla de sacrificio y ambición de cara al Mundial.</p>
+        <span class="itag">Patinadora</span>
+      </div>
     </div>
-    <div class="card" onclick="det('entrevista','\"Esta generación tiene talento para dominar Europa una década\"','Entrenador · Juan Pérez','Seleccionador Nacional RFEP','El seleccionador nacional analiza el presente y el futuro de la velocidad española tras el éxito europeo. Habla de metodología, captación de talento y el proyecto a largo plazo de la RFEP.','JP')">
-      <div class="iphoto" style="background:#1a1a2e"><div class="av-xl m" style="width:58px;height:58px;font-size:18px">JP</div><div class="iphoto-cap"><p>Juan Pérez — Seleccionador Nacional</p></div></div>
-      <div class="ibody"><h4>"Esta generación tiene talento para dominar Europa durante una década"</h4><p>El seleccionador analiza el éxito europeo y el futuro de la velocidad española.</p><span class="itag">Entrenador</span></div>
+
+    <div class="card" onclick="det('entrevista',
+      '\"Esta generación tiene talento para dominar Europa una década\"',
+      'Entrenador · Juan Pérez',
+      'Seleccionador Nacional RFEP',
+      'El seleccionador nacional analiza el presente y el futuro de la velocidad española tras el éxito europeo. Habla de metodología, captación de talento y el proyecto a largo plazo de la RFEP.',
+      'JP')">
+      <div class="iphoto" style="background:#1a1a2e">
+        <!-- Imagen real: <img src="img/entrevistas/juan-perez.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <div class="av-xl m" style="width:58px;height:58px;font-size:18px">JP</div>
+        <div class="iphoto-cap"><p>Juan Pérez — Seleccionador Nacional</p></div>
+      </div>
+      <div class="ibody">
+        <h4>"Esta generación tiene talento para dominar Europa durante una década"</h4>
+        <p>El seleccionador analiza el éxito europeo y el futuro de la velocidad española.</p>
+        <span class="itag">Entrenador</span>
+      </div>
     </div>
-    <div class="card" onclick="det('entrevista','30 años formando campeones: historia del club más laureado del norte','Club · CD Velocidad Asturias','Oviedo, Asturias','El presidente y entrenador jefe del club asturiano repasan tres décadas de historia, títulos nacionales e internacionales y los proyectos para consolidar el relevo generacional.','AS')">
-      <div class="iphoto" style="background:#1b2a1b"><div class="av-xl f" style="width:58px;height:58px;font-size:18px;background:var(--acd);color:var(--acc)">CD</div><div class="iphoto-cap"><p>CD Velocidad Asturias — 30 años</p></div></div>
-      <div class="ibody"><h4>30 años formando campeones: historia del club más laureado del norte</h4><p>El club asturiano repasa su trayectoria y los proyectos de futuro.</p><span class="itag">Club</span></div>
+
+    <div class="card" onclick="det('entrevista',
+      '30 años formando campeones: historia del club más laureado del norte',
+      'Club · CD Velocidad Asturias',
+      'Oviedo, Asturias',
+      'El presidente y entrenador jefe del club asturiano repasan tres décadas de historia, títulos nacionales e internacionales y los proyectos para consolidar el relevo generacional.',
+      'AS')">
+      <div class="iphoto" style="background:#1b2a1b">
+        <!-- Imagen real: <img src="img/entrevistas/cd-asturias.jpg" style="width:100%;height:100%;object-fit:cover"> -->
+        <div class="av-xl f" style="width:58px;height:58px;font-size:18px;background:var(--acd);color:var(--acc)">CD</div>
+        <div class="iphoto-cap"><p>CD Velocidad Asturias — 30 años</p></div>
+      </div>
+      <div class="ibody">
+        <h4>30 años formando campeones: historia del club más laureado del norte</h4>
+        <p>El club asturiano repasa su trayectoria y los proyectos de futuro.</p>
+        <span class="itag">Club</span>
+      </div>
     </div>
+
   </div>
-</div>
+</section>
 <div class="divider"></div>
 
-<div id="revistas" class="sec">
-  <div class="sh"><span class="stag">Publicaciones</span><span class="stitle">Colección RollerZone</span></div>
+<!-- ═══════════════════════════════════════
+     SECCIÓN REVISTAS
+     Los datos están en js/revistas.js
+     Añade una nueva revista editando ese archivo
+════════════════════════════════════════ -->
+<section id="revistas" class="sec">
+  <div class="sh">
+    <span class="stag">Publicaciones</span>
+    <span class="stitle">Colección RollerZone</span>
+  </div>
   <div class="mag-grid" id="mag-grid"></div>
-</div>
+</section>
 <div class="divider"></div>
 
-<div id="clubs" class="sec">
-  <div class="sh"><span class="stag">Clubs</span><span class="stitle">Clubs de patinaje de velocidad</span></div>
+<!-- ═══════════════════════════════════════
+     SECCIÓN CLUBS
+     Para AÑADIR un club: copia un div.club completo y edita
+     Para ELIMINAR: borra el div.club completo
+════════════════════════════════════════ -->
+<section id="clubs" class="sec">
+  <div class="sh">
+    <span class="stag">Clubs</span>
+    <span class="stitle">Clubs de patinaje de velocidad</span>
+  </div>
   <div class="clubs-grid">
-    <div class="club" onclick="det('club','CD Velocidad Asturias','Oviedo, Asturias · Fundado 1994','120 patinadores · 12 títulos nacionales','Uno de los clubs más destacados de la escena nacional. Más de 30 años de historia formando campeones que han representado a España internacionalmente. Cantera referente en toda la cornisa cantábrica.','AS')"><div class="clav">AS</div><h4>CD Velocidad Asturias</h4><p>Oviedo, Asturias · 1994</p><small>120 patinadores · 12 títulos</small></div>
-    <div class="club" onclick="det('club','Club Patín Zaragoza','Zaragoza, Aragón · Fundado 1988','95 patinadores · 8 títulos nacionales','Uno de los más veteranos de España y cuna de grandes figuras como Sergio Fernández (N°2 ranking Elite) y Carlos Ortega (N°1 ranking Promesa). Referencia en Aragón y el noreste.','ZA')"><div class="clav">ZA</div><h4>Club Patín Zaragoza</h4><p>Zaragoza, Aragón · 1988</p><small>95 patinadores · 8 títulos</small></div>
-    <div class="club" onclick="det('club','Escola de Patinatge BCN','Barcelona, Cataluña · Fundado 2001','140 patinadores · 5 títulos nacionales','La mayor escuela de patinaje de velocidad de Cataluña. Su programa junior es especialmente potente: aquí se forman Ana Torres (N°1 Estrella Femenina) e Irene Ramos (Elite).','BC')"><div class="clav">BC</div><h4>Escola de Patinatge BCN</h4><p>Barcelona, Cataluña · 2001</p><small>140 patinadores · 5 títulos</small></div>
-    <div class="club" onclick="det('club','Athletic Patinaje Bilbao','Bilbao, País Vasco · Fundado 1997','80 patinadores · 6 títulos nacionales','Club histórico del País Vasco con Marco Rodríguez (N°3 ranking Elite) como referente absoluto. Sus instalaciones en Basurto son punto de referencia del norte peninsular.','BI')"><div class="clav">BI</div><h4>Athletic Patinaje Bilbao</h4><p>Bilbao, País Vasco · 1997</p><small>80 patinadores · 6 títulos</small></div>
-    <div class="club" onclick="det('club','CD Velocidad Madrid','Madrid · Fundado 1990','110 patinadores · 10 títulos nacionales','Con sede en la capital, es el segundo club más laureado del ranking histórico. Su programa de alto rendimiento atrae talento de toda la Comunidad de Madrid.','MD')"><div class="clav">MD</div><h4>CD Velocidad Madrid</h4><p>Madrid · 1990</p><small>110 patinadores · 10 títulos</small></div>
-    <div class="club" onclick="det('club','Club Patinaje Sevilla','Sevilla, Andalucía · Fundado 2003','65 patinadores · 2 títulos nacionales','El club más representativo de Andalucía en velocidad. En los últimos años ha dado un salto de calidad notable con Álvaro Martín (Estrella) y Pablo Arenas (Promesa) entre sus filas.','SE')"><div class="clav">SE</div><h4>Club Patinaje Sevilla</h4><p>Sevilla, Andalucía · 2003</p><small>65 patinadores · 2 títulos</small></div>
+
+    <div class="club" onclick="det('club','CD Velocidad Asturias','Oviedo, Asturias · Fundado 1994','120 patinadores · 12 títulos nacionales','Uno de los clubs más destacados de la escena nacional. Más de 30 años de historia formando campeones que han representado a España internacionalmente.','AS')">
+      <div class="clav">AS</div>
+      <h4>CD Velocidad Asturias</h4>
+      <p>Oviedo, Asturias · 1994</p>
+      <small>120 patinadores · 12 títulos</small>
+    </div>
+
+    <div class="club" onclick="det('club','Club Patín Zaragoza','Zaragoza, Aragón · Fundado 1988','95 patinadores · 8 títulos nacionales','Uno de los más veteranos de España y cuna de grandes figuras como Sergio Fernández y Carlos Ortega. Referencia en Aragón y el noreste.','ZA')">
+      <div class="clav">ZA</div>
+      <h4>Club Patín Zaragoza</h4>
+      <p>Zaragoza, Aragón · 1988</p>
+      <small>95 patinadores · 8 títulos</small>
+    </div>
+
+    <div class="club" onclick="det('club','Escola de Patinatge BCN','Barcelona, Cataluña · Fundado 2001','140 patinadores · 5 títulos nacionales','La mayor escuela de patinaje de velocidad de Cataluña. Su programa junior es especialmente potente.','BC')">
+      <div class="clav">BC</div>
+      <h4>Escola de Patinatge BCN</h4>
+      <p>Barcelona, Cataluña · 2001</p>
+      <small>140 patinadores · 5 títulos</small>
+    </div>
+
+    <div class="club" onclick="det('club','Athletic Patinaje Bilbao','Bilbao, País Vasco · Fundado 1997','80 patinadores · 6 títulos nacionales','Club histórico del País Vasco con Marco Rodríguez como referente absoluto.','BI')">
+      <div class="clav">BI</div>
+      <h4>Athletic Patinaje Bilbao</h4>
+      <p>Bilbao, País Vasco · 1997</p>
+      <small>80 patinadores · 6 títulos</small>
+    </div>
+
+    <div class="club" onclick="det('club','CD Velocidad Madrid','Madrid · Fundado 1990','110 patinadores · 10 títulos nacionales','Con sede en la capital, es el segundo club más laureado del ranking histórico.','MD')">
+      <div class="clav">MD</div>
+      <h4>CD Velocidad Madrid</h4>
+      <p>Madrid · 1990</p>
+      <small>110 patinadores · 10 títulos</small>
+    </div>
+
+    <div class="club" onclick="det('club','Club Patinaje Sevilla','Sevilla, Andalucía · Fundado 2003','65 patinadores · 2 títulos nacionales','El club más representativo de Andalucía en velocidad con Álvaro Martín y Pablo Arenas entre sus filas.','SE')">
+      <div class="clav">SE</div>
+      <h4>Club Patinaje Sevilla</h4>
+      <p>Sevilla, Andalucía · 2003</p>
+      <small>65 patinadores · 2 títulos</small>
+    </div>
+
   </div>
-</div>
+</section>
 <div class="divider"></div>
 
-<div id="sponsors" class="sec">
-  <div class="sh"><span class="stag">Patrocinadores</span><span class="stitle">Nuestros patrocinadores</span></div>
-  <div class="spon-grid">
-    <div class="spon" onclick="det('sponsor','Speed Skates Pro','Patrocinador Oficial','Material técnico y calzado de competición','Proveedor oficial de material técnico de RollerZone Spain. Suministra equipamiento de alto rendimiento a los principales clubs y selecciones nacionales.','SP')"><div class="spon-logo">SP</div><p>Speed Skates Pro</p></div>
-    <div class="spon" onclick="det('sponsor','Rollux Equipment','Patrocinador Equipamiento','Ruedas, rodamientos y protección','Marca de referencia en ruedas y rodamientos para patinaje de velocidad en el mercado europeo. Patrocinador oficial desde el número 3.','RX')"><div class="spon-logo">RX</div><p>Rollux Equipment</p></div>
-    <div class="spon" onclick="det('sponsor','X-Skate Helmets','Patrocinador Seguridad','Cascos y protecciones certificadas CE','Proveedor de seguridad oficial de varias federaciones autonómicas y de la Copa de España.','XH')"><div class="spon-logo">XH</div><p>X-Skate Helmets</p></div>
-    <div class="spon" onclick="det('sponsor','RFEP','Apoyo Institucional','Real Federación Española de Patinaje','Colabora con RollerZone Spain en la difusión del patinaje de velocidad en todo el territorio nacional.','RF')"><div class="spon-logo">RF</div><p>Federación RFEP</p></div>
-    <div class="spon" onclick="det('sponsor','Tu marca aquí','Conviértete en patrocinador','Llega a miles de patinadores en España','Contacta con nosotros y te explicamos los paquetes disponibles para marcas, tiendas y fabricantes del sector.','+')"><div class="spon-logo" style="font-size:20px">+</div><p>Tu marca aquí</p></div>
+<!-- ═══════════════════════════════════════
+     SECCIÓN PATROCINADORES
+     Para AÑADIR: copia un div.spon y edita
+     Para ELIMINAR: borra el div.spon completo
+════════════════════════════════════════ -->
+<section id="sponsors" class="sec">
+  <div class="sh">
+    <span class="stag">Patrocinadores</span>
+    <span class="stitle">Nuestros patrocinadores</span>
   </div>
-</div>
+  <div class="spon-grid">
 
-<div class="footer"><strong>RollerZone Spain</strong> · La revista del patinaje de velocidad en España<br><span style="font-size:11px;margin-top:4px;display:block">© 2026 RollerZone Spain · Todos los derechos reservados</span></div>
-</div>
+    <div class="spon" onclick="det('sponsor','Speed Skates Pro','Patrocinador Oficial','Material técnico y calzado de competición','Proveedor oficial de material técnico de RollerZone Spain. Suministra equipamiento de alto rendimiento a los principales clubs y selecciones nacionales.','SP')">
+      <!-- Imagen logo: <img src="img/sponsors/speed-skates-pro.png" style="width:46px;height:46px;object-fit:contain"> -->
+      <div class="spon-logo">SP</div>
+      <p>Speed Skates Pro</p>
+    </div>
 
-<div id="pg-detail" class="page dpage">
+    <div class="spon" onclick="det('sponsor','Rollux Equipment','Patrocinador Equipamiento','Ruedas, rodamientos y protección','Marca de referencia en ruedas y rodamientos para patinaje de velocidad en el mercado europeo.','RX')">
+      <div class="spon-logo">RX</div>
+      <p>Rollux Equipment</p>
+    </div>
+
+    <div class="spon" onclick="det('sponsor','X-Skate Helmets','Patrocinador Seguridad','Cascos y protecciones certificadas CE','Proveedor de seguridad oficial de varias federaciones autonómicas y de la Copa de España.','XH')">
+      <div class="spon-logo">XH</div>
+      <p>X-Skate Helmets</p>
+    </div>
+
+    <div class="spon" onclick="det('sponsor','RFEP','Apoyo Institucional','Real Federación Española de Patinaje','Colabora con RollerZone Spain en la difusión del patinaje de velocidad en todo el territorio nacional.','RF')">
+      <div class="spon-logo">RF</div>
+      <p>Federación RFEP</p>
+    </div>
+
+    <div class="spon" onclick="det('sponsor','Tu marca aquí','Conviértete en patrocinador','Llega a miles de patinadores en España','Contacta con nosotros y te explicamos los paquetes disponibles para marcas, tiendas y fabricantes del sector.','+')">
+      <div class="spon-logo" style="font-size:20px">+</div>
+      <p>Tu marca aquí</p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <strong>RollerZone Spain</strong> · La revista del patinaje de velocidad en España<br>
+  <span style="font-size:11px;margin-top:4px;display:block">© 2026 RollerZone Spain · Todos los derechos reservados</span>
+</footer>
+
+<!-- PÁGINA DETALLE (se muestra al hacer clic) -->
+<div id="pg-detail" class="dpage" style="display:none">
   <nav class="dnavbar">
     <div class="logo" onclick="goHome()"><div class="lbox">RZ</div><span class="ltxt">Roller<em>Zone</em> Spain</span></div>
-    <button class="dback" id="d-back-btn">← Volver</button>
+    <button class="dback" id="d-back-btn" onclick="goHome()">← Volver</button>
   </nav>
-  <div class="dcrumb-bar"><span class="dcrumb">Inicio / <em id="d-section">—</em> / <em id="d-title-crumb">—</em></span></div>
+  <div class="dcrumb-bar">
+    <span class="dcrumb">Inicio / <em id="d-section">—</em> / <em id="d-title-crumb">—</em></span>
+  </div>
   <div id="d-content"></div>
 </div>
 
-<div id="pg-ranking" class="page dpage">
+<!-- PÁGINA FICHA PATINADOR -->
+<div id="pg-ranking" class="dpage" style="display:none">
   <nav class="dnavbar">
     <div class="logo" onclick="goHome()"><div class="lbox">RZ</div><span class="ltxt">Roller<em>Zone</em> Spain</span></div>
-    <button class="dback" onclick="goHome()">← Web principal</button>
+    <button class="dback" onclick="showMain()">← Ranking MVP</button>
   </nav>
-  <div class="dcrumb-bar"><span class="dcrumb">Inicio / <em>Ranking MVP</em> / <em id="pk-crumb">—</em></span></div>
+  <div class="dcrumb-bar">
+    <span class="dcrumb">Inicio / <em>Ranking MVP</em> / <em id="pk-crumb">—</em></span>
+  </div>
   <div id="pk-content"></div>
 </div>
 
-<script>
-const MAGS=[
-  {n:1,year:'2020',theme:'Origen y Pasión',sumario:'Historia del patinaje en España · Primeras figuras nacionales · Técnica de salida · Equipamiento básico'},
-  {n:2,year:'2021',theme:'Campeones de España',sumario:'Reportaje campeonato nacional 2020 · Entrevista al campeón · Análisis técnico 500m · Clubs del año'},
-  {n:3,year:'2021',theme:'Pista y Maratón',sumario:'Maratón vs pista: diferencias técnicas · Preparación física maratón · Mejores patines · Ranking clubs'},
-  {n:4,year:'2022',theme:'Generación Olímpica',sumario:'El patinaje camino a los Juegos · Promesas sub-17 · Entrenamiento de élite · World Skate Games'},
-  {n:5,year:'2023',theme:'Europa en Juego',sumario:'Crónica Campeonato de Europa · Selección nacional: análisis · Innovación en materiales · Ranking MVP'},
-  {n:6,year:'2024',theme:'Velocidad Extrema',sumario:'Récords nacionales e internacionales · Biomecánica del patinador · Mejores pistas España · Ranking MVP especial'},
-  {n:7,year:'2025',theme:'Número actual',sumario:'España en Europa: crónica completa · Entrevista Lucía Méndez · Ranking MVP 2026 · Calendario temporada · Nuevos materiales',current:true},
-];
+<!-- PÁGINA PRINCIPAL (siempre visible por defecto) -->
+<div id="pg-main"></div>
 
-const PLAYERS=[
-  {id:'lm',n:'Lucía Méndez',ini:'LM',gen:'f',cat:'elite',club:'CD Velocidad Asturias',pts:1240,edad:24,ciudad:'Oviedo',tit:3,temp:6,bio:'Lucía Méndez es la patinadora española más en forma de la temporada 2026. Natural de Oviedo, lleva seis temporadas en la élite nacional y suma ya tres títulos de campeona de España en categoría absoluta femenina. Su regularidad en velocidad en pista y en maratón la sitúan como indiscutible número 1 del ranking MVP Elite.',logros:['Campeona de España Absoluta 2024 y 2025','Medalla de plata Campeonato de Europa 2025','Récord nacional 500m pista cubierta','3 victorias en Copa de España 2026']},
-  {id:'cg',n:'Carmen García',ini:'CG',gen:'f',cat:'elite',club:'CD Velocidad Madrid',pts:934,edad:26,ciudad:'Madrid',tit:2,temp:7,bio:'Carmen García es una de las veteranas del pelotón nacional femenino. Con siete temporadas y dos títulos nacionales, la madrileña aporta experiencia y regularidad. En 2026 ha renovado su motivación con un inicio sólido que la mantiene en el top 5 del ranking MVP Elite.',logros:['Campeona de España Absoluta 2021 y 2022','Top 10 Campeonato de Europa 2024','5 podios Copa de España desde 2020','Récord de la Comunidad de Madrid 1000m']},
-  {id:'ir',n:'Irene Ramos',ini:'IR',gen:'f',cat:'elite',club:'Escola de Patinatge BCN',pts:891,edad:23,ciudad:'Barcelona',tit:1,temp:4,bio:'Irene Ramos irrumpió en la élite nacional hace cuatro temporadas. La barcelonesa combina excelente técnica de salida con gran resistencia, haciéndola peligrosa tanto en pruebas cortas como en maratón.',logros:['Subcampeona de España Absoluta 2025','Campeona de Cataluña 2023 y 2024','Seleccionada nacional 2025 y 2026','Mejor debut del año 2022 según RollerZone']},
-  {id:'sf',n:'Sergio Fernández',ini:'SF',gen:'m',cat:'elite',club:'Club Patín Zaragoza',pts:1185,edad:22,ciudad:'Zaragoza',tit:1,temp:2,bio:'Sergio Fernández es la gran revelación de la élite masculina en 2026. Campeón nacional junior en 2025, ha dado el salto definitivo a la categoría absoluta con una primera temporada sensacional sumando victorias en las dos primeras pruebas de la Copa de España.',logros:['Campeón de España Junior 2025','2 victorias Copa de España 2026','Récord de Aragón 500m y 1000m','Mejor patinador junior RollerZone 2025']},
-  {id:'mr',n:'Marco Rodríguez',ini:'MR',gen:'m',cat:'elite',club:'Athletic Patinaje Bilbao',pts:987,edad:31,ciudad:'Bilbao',tit:4,temp:11,bio:'Marco Rodríguez es el decano de la élite nacional masculina. Con once temporadas y cuatro títulos de campeón de España, el bilbaíno sigue siendo uno de los patinadores más completos del país. Su experiencia internacional y capacidad táctica le mantienen en el top 5.',logros:['4 veces campeón de España Absoluto','Medallista Mundial 2021 (bronce)','Capitán Selección Nacional 2022-2024','Embajador del patinaje en el País Vasco']},
-  {id:'jl',n:'Javier López',ini:'JL',gen:'m',cat:'elite',club:'CD Velocidad Madrid',pts:876,edad:28,ciudad:'Madrid',tit:2,temp:8,bio:'Javier López es un habitual del podio nacional desde hace casi una década. El madrileño destaca especialmente en pruebas de fondo y maratón. En 2026 llega en plena forma tras una temporada de invierno muy trabajada.',logros:['2 veces subcampeón de España Absoluto','Ganador Maratón de Donostia 2023','5 podios Copa de España 2022-2025','Seleccionado nacional en 4 Europeos']},
-  {id:'at',n:'Ana Torres',ini:'AT',gen:'f',cat:'estrella',club:'Escola de Patinatge BCN',pts:1092,edad:19,ciudad:'Barcelona',tit:2,temp:3,bio:'Ana Torres es la gran figura de la categoría Estrella femenina. Con solo 19 años, la barcelonesa ha batido varios récords regionales esta temporada y aspira al título nacional en Zaragoza. Su entrenadora la define como la patinadora técnicamente más completa de su generación.',logros:['Campeona de España Estrella 2024 y 2025','Récord de Cataluña sub-20 en 500m','Convocada selección absoluta por primera vez','N°1 ranking Estrella Femenina 2026']},
-  {id:'ps',n:'Paula Sanz',ini:'PS',gen:'f',cat:'estrella',club:'Club Patín Zaragoza',pts:945,edad:20,ciudad:'Zaragoza',tit:1,temp:3,bio:'Paula Sanz sigue los pasos de su compañero Sergio Fernández con paso firme. La zaragozana destaca por su potencia en las salidas y ha logrado su mejor temporada en 2026 con una constancia notable en todas las pruebas del circuito Estrella.',logros:['Campeona de España Estrella 2025','3 podios Copa de España Estrella 2026','Récord de Aragón sub-21 1000m','Premio revelación RollerZone 2025']},
-  {id:'nr',n:'Nora Ruiz',ini:'NR',gen:'f',cat:'estrella',club:'Athletic Patinaje Bilbao',pts:812,edad:21,ciudad:'Bilbao',tit:0,temp:3,bio:'Nora Ruiz representa el futuro del patinaje vasco. La bilbaína ha mejorado notablemente su rendimiento en velocidad pura y compite habitualmente en los puestos de cabeza del pelotón Estrella femenino.',logros:['Subcampeona de España Estrella 2025','Campeona del País Vasco sub-21 2024 y 2025','2 podios Copa de España Estrella 2026','Participante Campeonato de Europa Estrella 2025']},
-  {id:'dp',n:'Diego Palma',ini:'DP',gen:'m',cat:'estrella',club:'CD Velocidad Asturias',pts:1034,edad:20,ciudad:'Gijón',tit:1,temp:3,bio:'Diego Palma es el líder de la categoría Estrella masculina y el gran favorito a subir a la élite la próxima temporada. El gijonés combina velocidad punta y gran capacidad de recuperación, cualidades que le han llevado a dominar el circuito Estrella en 2026.',logros:['Campeón de España Estrella 2025','Líder ranking Estrella Masculino 2026','Récord de Asturias sub-21 500m','Preseleccionado selección nacional 2026']},
-  {id:'rb',n:'Raúl Blanco',ini:'RB',gen:'m',cat:'estrella',club:'CD Velocidad Madrid',pts:878,edad:21,ciudad:'Madrid',tit:0,temp:2,bio:'Raúl Blanco ha sido la gran sorpresa del circuito Estrella masculino en 2026. El madrileño, en su segunda temporada, ha mejorado sus marcas personales en todas las distancias y apunta a pelear el título nacional.',logros:['Subcampeón de España Estrella 2025','3 victorias parciales Copa España 2026','Mejor marca personal 300m TT en 2026','Nominado MVP Estrella Masculino RollerZone N°7']},
-  {id:'am',n:'Álvaro Martín',ini:'AM',gen:'m',cat:'estrella',club:'Club Patinaje Sevilla',pts:743,edad:22,ciudad:'Sevilla',tit:0,temp:2,bio:'Álvaro Martín es el referente del patinaje andaluz en la categoría Estrella. El sevillano ha traído aire fresco al sur de España con resultados que demuestran que el talento no tiene fronteras geográficas.',logros:['Top 5 ranking Estrella Masculino 2025 y 2026','Campeón de Andalucía Estrella 2024 y 2025','2 podios Copa de España Estrella 2026','Embajador del patinaje en Andalucía']},
-  {id:'ms',n:'Marta Soto',ini:'MS',gen:'f',cat:'promesa',club:'CD Velocidad Asturias',pts:780,edad:15,ciudad:'Avilés',tit:2,temp:2,bio:'Marta Soto es la mayor promesa del patinaje femenino español en este momento. Con solo 15 años, la avilesina ya destaca en competiciones nacionales de categoría Promesa y llama la atención de los técnicos de la selección nacional.',logros:['Campeona de España Promesa 2024 y 2025','Récord nacional Promesa Femenino 500m','Convocada concentración selección sub-17','Premio mejor promesa RollerZone N°7']},
-  {id:'lg',n:'Laura Gil',ini:'LG',gen:'f',cat:'promesa',club:'Escola de Patinatge BCN',pts:698,edad:16,ciudad:'Sabadell',tit:1,temp:2,bio:'Laura Gil compagina sus estudios con un régimen de entrenamiento muy exigente y ya ha demostrado su nivel en las principales pruebas nacionales de categoría Promesa.',logros:['Campeona de Cataluña Promesa 2025','Subcampeona de España Promesa 2025','2 podios Copa de España Promesa 2026','Seleccionada concentración nacional sub-17']},
-  {id:'ev',n:'Elena Vidal',ini:'EV',gen:'f',cat:'promesa',club:'Athletic Patinaje Bilbao',pts:614,edad:14,ciudad:'Barakaldo',tit:0,temp:1,bio:'Elena Vidal, con solo 14 años, ya aparece en el top 3 del ranking Promesa femenino en su primera temporada oficial. La barakaldesa es la patinadora más joven del ranking MVP.',logros:['Top 3 ranking Promesa Femenino en 1ª temporada','Campeona del País Vasco Promesa 2025','Récord de Bizkaia sub-15 300m','Talento destacado por RollerZone N°7']},
-  {id:'co',n:'Carlos Ortega',ini:'CO',gen:'m',cat:'promesa',club:'Club Patín Zaragoza',pts:856,edad:16,ciudad:'Zaragoza',tit:2,temp:2,bio:'Carlos Ortega sigue los pasos de su ídolo Sergio Fernández. El joven zaragozano ha dominado la categoría Promesa masculina con autoridad en 2026 y aspira a repetir el salto de campeón Promesa a referente absoluto.',logros:['Campeón de España Promesa 2024 y 2025','Récord de Aragón Promesa 500m y 1000m','Convocado selección sub-17 para Europa','Mejor promesa masculino RollerZone N°7']},
-  {id:'hm',n:'Hugo Medina',ini:'HM',gen:'m',cat:'promesa',club:'CD Velocidad Madrid',pts:721,edad:15,ciudad:'Getafe',tit:1,temp:2,bio:'Hugo Medina, hijo de un ex patinador de élite, lleva el patinaje en la sangre. El getafeño ha demostrado en sus primeras temporadas que está llamado a ser uno de los grandes del circuito nacional.',logros:['Campeón de la Comunidad de Madrid Promesa 2025','Subcampeón de España Promesa 2025','3 podios Copa de España Promesa 2026','Sigue los pasos de su padre, ex élite nacional']},
-  {id:'pa',n:'Pablo Arenas',ini:'PA',gen:'m',cat:'promesa',club:'Club Patinaje Sevilla',pts:589,edad:14,ciudad:'Málaga',tit:0,temp:1,bio:'Pablo Arenas es la gran sorpresa del sur en la categoría Promesa masculina. El malagueño, en su primera temporada oficial, ha demostrado un talento natural excepcional que ha llamado la atención de clubs de todo el país.',logros:['Top 5 ranking Promesa Masculino en 1ª temporada','Campeón de Andalucía Promesa 2025','Récord de Málaga sub-15 300m TT','Descubierto en el campeonato escolar regional 2024']},
-];
-
-const CC={elite:{bg:'#f5a623',fg:'#1a1200'},estrella:{bg:'#534ab7',fg:'#fff'},promesa:{bg:'#1d9e75',fg:'#fff'}};
-const CL={elite:'Elite',estrella:'Estrella',promesa:'Promesa'};
-let selCat='todas',selGen='todos';
-
-function renderRanking(){
-  const cats=selCat==='todas'?['elite','estrella','promesa']:[selCat];
-  const gens=selGen==='todos'?['f','m']:[selGen];
-  let html='';
-  cats.forEach(cat=>{
-    gens.forEach(gen=>{
-      const rows=PLAYERS.filter(d=>d.cat===cat&&d.gen===gen).sort((a,b)=>b.pts-a.pts);
-      if(!rows.length)return;
-      const cc=CC[cat];
-      const gLabel=gen==='f'?'Femenino':'Masculino';
-      const gBg=gen==='f'?'#993556':'#185fa5';
-      html+=`<div class="cat-block">
-        <div class="cat-hd">
-          <span class="cbadge" style="background:${cc.bg};color:${cc.fg}">${CL[cat]}</span>
-          <span class="cbadge" style="background:${gBg};color:#fff">${gLabel}</span>
-          <span class="ctitle">${CL[cat]} — ${gLabel}</span>
-          <span class="ccount">${rows.length} patinadores</span>
-        </div>
-        <div class="tbl">
-          <div class="tr hd"><span>#</span><span></span><span>Patinador/a</span><span>Club</span><span style="text-align:right">Pts</span><span style="text-align:center">País</span></div>`;
-      rows.forEach((p,i)=>{
-        const rk=i===0?'r1':i===1?'r2':i===2?'r3':'rn';
-        html+=`<div class="tr" onclick="showPlayer('${p.id}')">
-          <div><div class="rk ${rk}">${i+1}</div></div>
-          <div><div class="av ${p.gen==='f'?'avf':'avm'}">${p.ini}</div></div>
-          <div><div class="pn">${p.n}</div><div class="pc">${p.ciudad}</div></div>
-          <div class="pc">${p.club}</div>
-          <div class="pts">${p.pts}</div>
-          <div style="text-align:center;font-size:17px">🇪🇸</div>
-        </div>`;
-      });
-      html+=`</div></div>`;
-    });
-  });
-  if(!html)html=`<div style="padding:2rem;text-align:center;color:var(--txt3);font-size:13px">No hay patinadores con estos filtros.</div>`;
-  document.getElementById('rkwrap').innerHTML=html;
-}
-
-function showPlayer(id){
-  const p=PLAYERS.find(d=>d.id===id);
-  if(!p)return;
-  showPage('pg-ranking');
-  document.getElementById('pk-crumb').textContent=p.n;
-  const cc=CC[p.cat];
-  const gLabel=p.gen==='f'?'Femenino':'Masculino';
-  const gBg=p.gen==='f'?'#993556':'#185fa5';
-  document.getElementById('pk-content').innerHTML=`
-    <div class="dhero"><div class="dhero-in">
-      <span class="dtag" style="background:${cc.bg};color:${cc.fg}">${CL[p.cat]}</span>
-      <span class="dtag" style="background:${gBg};color:#fff;margin-left:6px">${gLabel}</span>
-      <h2>${p.n}</h2>
-      <div class="dmeta">${p.club} · ${p.ciudad} · Temporada 2026</div>
-    </div></div>
-    <div class="dbody">
-      <div class="prof-card">
-        <div class="av-xl ${p.gen}" style="border-color:${cc.bg}">${p.ini}</div>
-        <div class="pi">
-          <h3>${p.n}</h3>
-          <p>${p.club}</p>
-          <p>${p.ciudad}, España · ${p.edad} años</p>
-          <div class="ptags">
-            <span class="ptag" style="background:${cc.bg};color:${cc.fg}">${CL[p.cat]}</span>
-            <span class="ptag" style="background:${gBg};color:#fff">${gLabel}</span>
-            <span class="ptag ptag-cl">${p.club}</span>
-          </div>
-        </div>
-      </div>
-      <div class="stats-g">
-        <div class="sbox"><span class="sv">${p.pts}</span><span class="sl">Puntos MVP 2026</span></div>
-        <div class="sbox"><span class="sv">${p.edad}</span><span class="sl">Edad</span></div>
-        <div class="sbox"><span class="sv">${p.tit}</span><span class="sl">Títulos nacionales</span></div>
-        <div class="sbox"><span class="sv">${p.temp}</span><span class="sl">Temporadas</span></div>
-      </div>
-      <div class="bio-box"><h4>Biografía</h4><p>${p.bio}</p></div>
-      <div class="bio-box"><h4>Palmarés y logros</h4><ul class="logros">${p.logros.map(l=>`<li>${l}</li>`).join('')}</ul></div>
-    </div>`;
-  document.getElementById('d-back-btn').onclick=()=>{showPage('pg-ranking');document.getElementById('pk-content').innerHTML='';};
-  window.scrollTo(0,0);
-}
-
-function det(type,title,sub,meta,body,av){
-  showPage('pg-detail');
-  const labels={noticia:'Noticias',evento:'Eventos',entrevista:'Entrevistas',club:'Clubs',sponsor:'Patrocinadores',revista:'Revistas'};
-  document.getElementById('d-section').textContent=labels[type]||type;
-  document.getElementById('d-title-crumb').textContent=title.substring(0,45)+(title.length>45?'…':'');
-  document.getElementById('d-back-btn').onclick=goHome;
-  let html='';
-  if(type==='noticia'||type==='evento'){
-    html=`<div class="dhero"><div class="dhero-in">
-      <span class="dtag" style="background:var(--acc);color:#1a1200">${sub}</span>
-      <h2>${title}</h2><div class="dmeta">${meta}</div>
-    </div></div>
-    <div class="dbody">
-      <div class="det-img"><div class="det-ico">⛸</div></div>
-      <p class="det-txt">${body}</p>
-      ${type==='evento'?`<div class="det-grid"><div class="sbox"><span class="sv">${meta.split(' ').slice(0,2).join(' ')}</span><span class="sl">Fecha</span></div><div class="sbox"><span class="sv">${sub}</span><span class="sl">Categoría</span></div></div>`:''}
-    </div>`;
-  } else if(type==='entrevista'){
-    const avClass=av==='AS'?'f':'m';
-    html=`<div class="dhero"><div class="dhero-in">
-      <span class="dtag" style="background:var(--acc);color:#1a1200">Entrevista</span>
-      <h2>${title}</h2><div class="dmeta">${sub} · ${meta}</div>
-    </div></div>
-    <div class="dbody">
-      <div class="prof-card">
-        <div class="av-xl ${avClass}">${av}</div>
-        <div class="pi"><h3>${meta}</h3><p>${sub}</p></div>
-      </div>
-      <div class="det-img"><div class="det-ico">⛸</div></div>
-      <p class="det-txt">${body}</p>
-    </div>`;
-  } else if(type==='club'){
-    html=`<div class="dhero"><div class="dhero-in">
-      <span class="dtag" style="background:var(--acc);color:#1a1200">Club</span>
-      <h2>${title}</h2><div class="dmeta">${sub}</div>
-    </div></div>
-    <div class="dbody">
-      <div class="prof-card">
-        <div class="av-xl f" style="background:var(--acd);color:var(--acc)">${av}</div>
-        <div class="pi"><h3>${title}</h3><p>${sub}</p><span class="ptag ptag-cl" style="margin-top:8px;display:inline-block">${meta}</span></div>
-      </div>
-      <p class="det-txt">${body}</p>
-      <div class="det-grid">
-        <div class="sbox"><span class="sv">${meta.split('·')[0].trim()}</span><span class="sl">Patinadores</span></div>
-        <div class="sbox"><span class="sv">${meta.split('·')[1]?meta.split('·')[1].trim():'—'}</span><span class="sl">Palmarés</span></div>
-      </div>
-    </div>`;
-  } else if(type==='sponsor'){
-    html=`<div class="dhero"><div class="dhero-in">
-      <span class="dtag" style="background:var(--acc);color:#1a1200">Patrocinador</span>
-      <h2>${title}</h2><div class="dmeta">${sub} · ${meta}</div>
-    </div></div>
-    <div class="dbody">
-      <div class="prof-card">
-        <div class="av-xl f" style="background:var(--acd);color:var(--acc);font-size:${av==='+'?'22px':'18px'}">${av}</div>
-        <div class="pi"><h3>${title}</h3><p>${sub}</p><span class="ptag ptag-cl" style="margin-top:8px;display:inline-block">${meta}</span></div>
-      </div>
-      <p class="det-txt">${body}</p>
-    </div>`;
-  }
-  document.getElementById('d-content').innerHTML=html;
-  window.scrollTo(0,0);
-}
-
-function showMag(n){
-  const m=MAGS.find(x=>x.n===n);
-  if(!m)return;
-  showPage('pg-detail');
-  document.getElementById('d-section').textContent='Revistas';
-  document.getElementById('d-title-crumb').textContent=`RollerZone N°${n}`;
-  document.getElementById('d-back-btn').onclick=goHome;
-  document.getElementById('d-content').innerHTML=`
-    <div class="dhero"><div class="dhero-in">
-      <span class="dtag" style="background:var(--acc);color:#1a1200">Revista impresa y digital</span>
-      <h2>RollerZone N°${n} — ${m.theme}</h2>
-      <div class="dmeta">${m.year}${m.current?' · Número actual':''}</div>
-    </div></div>
-    <div class="dbody">
-      <div class="mag-dcov" style="background:#1a1200">
-        <span class="ml">RollerZone Spain</span>
-        <span class="mn">N°${n}</span>
-        <span class="ml">${m.year}</span>
-        ${m.current?'<span style="background:var(--acc);color:#1a1200;font-size:11px;font-weight:500;padding:3px 12px;border-radius:10px">NÚMERO ACTUAL</span>':''}
-      </div>
-      <div class="bio-box"><h4>Sumario N°${n}</h4><p>${m.sumario}</p></div>
-      <div class="buy-blk">
-        <div><p>Comprar en formato digital (PDF)</p><small>Descarga inmediata · Alta resolución · Compatible con todos los dispositivos</small></div>
-        <button class="buy-btn" onclick="alert('Redirigiendo a la tienda digital de RollerZone Spain...')">Comprar PDF — N°${n} →</button>
-      </div>
-      ${n<MAGS.length?`<div style="margin-top:1rem;text-align:center"><button class="dback" style="font-size:13px;padding:6px 16px" onclick="showMag(${n+1})">Ver N°${n+1} →</button></div>`:''}
-    </div>`;
-  window.scrollTo(0,0);
-}
-
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-}
-function goHome(){showPage('pg-home');window.scrollTo(0,0)}
-function scr(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
-function tabClick(el,sel){document.querySelectorAll(sel).forEach(b=>b.classList.remove('on'));el.classList.add('on')}
-
-document.getElementById('fg-cat').addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;
-  document.querySelectorAll('#fg-cat .pill').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');selCat=b.dataset.cat;renderRanking();
-});
-document.getElementById('fg-gen').addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;
-  document.querySelectorAll('#fg-gen .pill').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');selGen=b.dataset.gen;renderRanking();
-});
-
-const mg=document.getElementById('mag-grid');
-MAGS.forEach(m=>{
-  const d=document.createElement('div');
-  d.className='mag';
-  d.innerHTML=`<div class="mcov"><span class="ml">RollerZone</span><span class="mn">N°${m.n}</span><span class="my">${m.year}</span>${m.current?'<span class="mnew">NUEVO</span>':''}</div>
-    <div class="minfo"><h5>${m.theme}</h5><p>${m.year}</p></div>
-    <div class="mbtns">
-      <button class="bts" onclick="event.stopPropagation();showMag(${m.n})">Ver</button>
-      <button class="bts btbuy" onclick="event.stopPropagation();showMag(${m.n})">Comprar</button>
-    </div>`;
-  d.onclick=()=>showMag(m.n);
-  mg.appendChild(d);
-});
-
-renderRanking();
-</script>
+<script src="js/ranking.js"></script>
+<script src="js/revistas.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
