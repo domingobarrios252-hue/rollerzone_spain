@@ -535,4 +535,13 @@ document.getElementById('fg-gen').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   document.querySelectorAll('#fg-gen .pill').forEach(x => x.classList.remove('on'));
   b.classList.add('on'); selGen = b.dataset.gen; renderRanking();
-});
+});// Configuración Firebase
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+};
+
+// Inicializar
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
