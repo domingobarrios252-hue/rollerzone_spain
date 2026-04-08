@@ -540,6 +540,9 @@ MAGS.forEach(m=>{
   d.onclick=()=>showMag(m.n);
   mg.appendChild(d);
 });
+  window.onload = function() {
+  showPage('pg-home');
+};
 
 renderRanking();
 </script>
