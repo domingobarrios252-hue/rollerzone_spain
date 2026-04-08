@@ -1,0 +1,310 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#1e1e1e;--bg2:#272727;--bg3:#2f2f2f;--bg4:#383030;
+--acc:#f5a623;--acc2:#e8891a;--acc-dim:#3a2800;
+--txt:#f0ece4;--txt2:#b0a99a;--txt3:#6e6860;
+--brd:#383530;--brd2:#4a4540;
+}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--txt)}
+
+.nav{background:#161616;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;height:56px;border-bottom:1px solid var(--brd)}
+.logo{display:flex;align-items:center;gap:9px;cursor:pointer}
+.logo-box{width:34px;height:34px;background:var(--acc);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:12px;color:#1a1200}
+.logo-txt{color:var(--txt);font-size:16px;font-weight:500}
+.logo-txt em{color:var(--acc);font-style:normal}
+.nav-back{background:var(--acc-dim);color:var(--acc);border:1px solid var(--brd2);border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer;transition:all .15s}
+.nav-back:hover{background:var(--acc);color:#1a1200}
+
+.page{display:none}
+.page.on{display:block}
+
+.header-band{background:#161616;border-bottom:1px solid var(--brd);padding:1.5rem 1.25rem 1.25rem}
+.header-band h1{font-size:26px;font-weight:500;color:var(--txt);line-height:1.2}
+.header-band h1 em{color:var(--acc);font-style:normal}
+.header-band p{font-size:13px;color:var(--txt3);margin-top:5px}
+
+.filters{padding:1.1rem 1.25rem;background:var(--bg2);border-bottom:1px solid var(--brd);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.filter-group{display:flex;gap:5px;flex-wrap:wrap}
+.filter-label{font-size:11px;color:var(--txt3);margin-right:2px;align-self:center;white-space:nowrap}
+.fpill{padding:5px 13px;border:1px solid var(--brd2);border-radius:20px;font-size:12px;cursor:pointer;background:transparent;color:var(--txt2);transition:all .15s;white-space:nowrap}
+.fpill:hover{border-color:var(--acc);color:var(--acc)}
+.fpill.on{background:var(--acc);color:#1a1200;border-color:var(--acc);font-weight:500}
+.fpill.fem.on{background:#d4537e;color:#fff;border-color:#d4537e}
+.fpill.masc.on{background:#378add;color:#fff;border-color:#378add}
+.sep{width:1px;height:28px;background:var(--brd2);align-self:center}
+
+.ranking-wrap{padding:1.25rem;max-width:1000px;margin:0 auto}
+
+.cat-block{margin-bottom:2rem}
+.cat-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--brd)}
+.cat-badge{font-size:10.5px;font-weight:500;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
+.b-elite{background:var(--acc);color:#1a1200}
+.b-estrella{background:#534ab7;color:#fff}
+.b-promesa{background:#1d9e75;color:#fff}
+.b-fem{background:#993556;color:#fff}
+.b-masc{background:#185fa5;color:#fff}
+.cat-title{font-size:17px;font-weight:500;color:var(--txt)}
+.cat-count{font-size:12px;color:var(--txt3);margin-left:auto}
+
+.table-wrap{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;overflow:hidden}
+.t-row{display:grid;align-items:center;padding:10px 1.1rem;border-bottom:1px solid var(--brd);cursor:pointer;transition:background .12s;gap:10px}
+.t-row:last-child{border-bottom:none}
+.t-row:hover{background:var(--bg3)}
+.t-row.header{background:var(--bg3);cursor:default;border-bottom:1px solid var(--brd2)}
+.t-row.header:hover{background:var(--bg3)}
+.t-row.header span{font-size:10.5px;color:var(--txt3);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.col-rank{width:32px;text-align:center;flex-shrink:0}
+.col-av{width:36px;flex-shrink:0}
+.col-name{flex:1;min-width:120px}
+.col-club{flex:1;min-width:100px}
+.col-pts{width:80px;text-align:right;flex-shrink:0}
+.col-pais{width:50px;text-align:center;flex-shrink:0}
+
+.rank-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:500;flex-shrink:0}
+.rk1{background:var(--acc);color:#1a1200}
+.rk2{background:#888;color:#fff}
+.rk3{background:#7a5c3a;color:#f5e6d0}
+.rkn{background:var(--bg3);color:var(--txt2)}
+
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.av-f{background:#4b1528;color:#ed93b1}
+.av-m{background:#042c53;color:#85b7eb}
+
+.pname{font-size:13.5px;font-weight:500;color:var(--txt)}
+.pclub{font-size:11.5px;color:var(--txt2)}
+.pts-val{font-size:14px;font-weight:500;color:var(--acc)}
+.pflag{font-size:15px}
+
+.empty{padding:2rem;text-align:center;color:var(--txt3);font-size:13px}
+
+.detail-page{background:var(--bg);min-height:600px}
+.detail-hero{background:#161616;padding:1.5rem 1.25rem;border-bottom:1px solid var(--brd)}
+.detail-hero-inner{max-width:900px;margin:0 auto}
+.dtag{display:inline-block;font-size:10.5px;font-weight:500;padding:3px 10px;border-radius:4px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.detail-hero h2{font-size:22px;font-weight:500;color:var(--txt);line-height:1.3}
+.detail-hero .meta{font-size:12.5px;color:var(--txt3);margin-top:6px}
+
+.detail-body{max-width:900px;margin:0 auto;padding:1.5rem 1.25rem}
+.profile-card{background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:1.5rem;display:flex;gap:1.25rem;align-items:flex-start;margin-bottom:1.5rem;flex-wrap:wrap}
+.av-xl{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:500;flex-shrink:0;border:2px solid var(--acc)}
+.av-xl.f{background:#4b1528;color:#ed93b1}
+.av-xl.m{background:#042c53;color:#85b7eb}
+.profile-info h3{font-size:20px;font-weight:500;color:var(--txt);margin-bottom:5px}
+.profile-info p{font-size:13px;color:var(--txt2);margin-top:3px}
+.ptags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ptag{font-size:11px;padding:3px 9px;border-radius:4px;font-weight:500}
+.ptag-cat{background:var(--acc-dim);color:var(--acc)}
+.ptag-gen-f{background:#4b1528;color:#ed93b1}
+.ptag-gen-m{background:#042c53;color:#85b7eb}
+.ptag-club{background:var(--bg3);color:var(--txt2);border:1px solid var(--brd2)}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.85rem;margin-bottom:1.5rem}
+.stat-box{background:var(--bg2);border:1px solid var(--brd);border-radius:8px;padding:1rem;text-align:center}
+.stat-val{font-size:22px;font-weight:500;color:var(--acc);display:block}
+.stat-lbl{font-size:11px;color:var(--txt3);margin-top:3px;display:block}
+
+.bio{background:var(--bg2);border:1px solid var(--brd);border-radius:10px;padding:1.25rem;margin-bottom:1.25rem}
+.bio p{font-size:13.5px;color:var(--txt2);line-height:1.8}
+.bio h4{font-size:13px;font-weight:500;color:var(--acc);margin-bottom:.6rem}
+
+.logros-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:.5rem}
+.logros-list li{font-size:12.5px;color:var(--txt2);padding-left:14px;position:relative}
+.logros-list li::before{content:'›';position:absolute;left:0;color:var(--acc)}
+
+.back-row{display:flex;align-items:center;gap:10px;padding:1rem 1.25rem;background:var(--bg2);border-bottom:1px solid var(--brd)}
+.breadcrumb{font-size:12px;color:var(--txt3)}
+.breadcrumb em{color:var(--acc);font-style:normal}
+.btn-back{background:var(--acc-dim);color:var(--acc);border:1px solid var(--brd2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s}
+.btn-back:hover{background:var(--acc);color:#1a1200}
+</style>
+
+<div id="pg-list" class="page on">
+<nav class="nav">
+  <div class="logo"><div class="logo-box">RZ</div><span class="logo-txt">Roller<em>Zone</em> Spain</span></div>
+  <button class="nav-back">← Web principal</button>
+</nav>
+
+<div class="header-band">
+  <h1>Ranking <em>MVP</em> RollerZone</h1>
+  <p>Temporada 2026 · Puntuación acumulada en pruebas oficiales · Actualizado semanalmente</p>
+</div>
+
+<div class="filters">
+  <span class="filter-label">Categoría:</span>
+  <div class="filter-group" id="fg-cat">
+    <button class="fpill on" data-cat="todas">Todas</button>
+    <button class="fpill" data-cat="elite">Elite</button>
+    <button class="fpill" data-cat="estrella">Estrella</button>
+    <button class="fpill" data-cat="promesa">Promesa</button>
+  </div>
+  <div class="sep"></div>
+  <span class="filter-label">Género:</span>
+  <div class="filter-group" id="fg-gen">
+    <button class="fpill on" data-gen="todos">Todos</button>
+    <button class="fpill fem" data-gen="f">Femenino</button>
+    <button class="fpill masc" data-gen="m">Masculino</button>
+  </div>
+</div>
+
+<div class="ranking-wrap" id="ranking-wrap"></div>
+</div>
+
+<div id="pg-detail" class="page detail-page">
+<nav class="nav">
+  <div class="logo"><div class="logo-box">RZ</div><span class="logo-txt">Roller<em>Zone</em> Spain</span></div>
+  <button class="nav-back" onclick="goList()">← Ranking MVP</button>
+</nav>
+<div class="back-row">
+  <button class="btn-back" onclick="goList()">← Volver al ranking</button>
+  <span class="breadcrumb">Inicio / <em>Ranking MVP</em> / <em id="bc-name">—</em></span>
+</div>
+<div id="detail-content"></div>
+</div>
+
+<script>
+const DATA=[
+  {id:'lm',nombre:'Lucía Méndez',ini:'LM',gen:'f',cat:'elite',club:'CD Velocidad Asturias',pais:'🇪🇸',pts:1240,edad:24,ciudad:'Oviedo',titulos:3,temporadas:6,bio:'Lucía Méndez es la patinadora española más en forma de la temporada 2026. Natural de Oviedo, lleva seis temporadas en la élite nacional y suma ya tres títulos de campeona de España en categoría absoluta femenina. Su regularidad en las pruebas de velocidad en pista y en maratón la sitúan como indiscutible número 1 del ranking MVP.',logros:['Campeona de España Absoluta 2024 y 2025','Medalla de plata Campeonato de Europa 2025','Récord nacional 500m pista cubierta','3 victorias en Copa de España 2026']},
+  {id:'cg',nombre:'Carmen García',ini:'CG',gen:'f',cat:'elite',club:'CD Velocidad Madrid',pais:'🇪🇸',pts:934,edad:26,ciudad:'Madrid',titulos:2,temporadas:7,bio:'Carmen García es una de las veteranas del pelotón nacional femenino. Con siete temporadas acumuladas y dos títulos nacionales, la madrileña aporta experiencia y regularidad. En 2026 ha renovado su motivación con un inicio de temporada sólido que la mantiene en el top 5 del ranking MVP.',logros:['Campeona de España Absoluta 2021 y 2022','Top 10 Campeonato de Europa 2024','5 podios en Copa de España desde 2020','Récord de la Comunidad de Madrid 1000m']},
+  {id:'ir',nombre:'Irene Ramos',ini:'IR',gen:'f',cat:'elite',club:'Escola de Patinatge BCN',pais:'🇪🇸',pts:891,edad:23,ciudad:'Barcelona',titulos:1,temporadas:4,bio:'Irene Ramos irrumpió en la élite nacional hace cuatro temporadas y no ha parado de crecer. La barcelonesa combina una excelente técnica de salida con gran resistencia, lo que la hace peligrosa tanto en pruebas cortas como en el maratón.',logros:['Subcampeona de España Absoluta 2025','Campeona de Cataluña 2023 y 2024','Seleccionada nacional 2025 y 2026','Mejor debut del año 2022 según RollerZone']},
+  {id:'sf',nombre:'Sergio Fernández',ini:'SF',gen:'m',cat:'elite',club:'Club Patín Zaragoza',pais:'🇪🇸',pts:1185,edad:22,ciudad:'Zaragoza',titulos:1,temporadas:2,bio:'Sergio Fernández es la gran revelación de la élite masculina en 2026. Campeón nacional junior en 2025, ha dado el salto definitivo a la categoría absoluta con una primera temporada sensacional. El zaragozano suma victorias en las dos primeras pruebas de la Copa de España y ya apunta al Mundial de Colombia.',logros:['Campeón de España Junior 2025','2 victorias Copa de España 2026','Récord de Aragón 500m y 1000m','Mejor patinador junior RollerZone 2025']},
+  {id:'mr',nombre:'Marco Rodríguez',ini:'MR',gen:'m',cat:'elite',club:'Athletic Patinaje Bilbao',pais:'🇪🇸',pts:987,edad:31,ciudad:'Bilbao',titulos:4,temporadas:11,bio:'Marco Rodríguez es el decano de la élite nacional masculina. Con once temporadas en activo y cuatro títulos de campeón de España, el bilbaíno sigue siendo uno de los patinadores más completos del país. Su experiencia internacional y su capacidad táctica le mantienen en el top 5 del ranking.',logros:['4 veces campeón de España Absoluto','Medallista Mundial 2021 (bronce)','Capitán de la Selección Nacional 2022-2024','Embajador del patinaje en el País Vasco']},
+  {id:'jl',nombre:'Javier López',ini:'JL',gen:'m',cat:'elite',club:'CD Velocidad Madrid',pais:'🇪🇸',pts:876,edad:28,ciudad:'Madrid',titulos:2,temporadas:8,bio:'Javier López es un habitual del podio nacional desde hace casi una década. El madrileño destaca especialmente en las pruebas de fondo y maratón, donde su resistencia marca la diferencia. En 2026 llega en plena forma física tras una temporada de invierno muy trabajada.',logros:['2 veces subcampeón de España Absoluto','Ganador Maratón de Donostia 2023','5 podios Copa de España 2022-2025','Seleccionado nacional en 4 Europeos']},
+
+  {id:'at',nombre:'Ana Torres',ini:'AT',gen:'f',cat:'estrella',club:'Escola de Patinatge BCN',pais:'🇪🇸',pts:1092,edad:19,ciudad:'Barcelona',titulos:2,temporadas:3,bio:'Ana Torres es la gran figura de la categoría estrella femenina. Con solo 19 años, la barcelonesa ha batido varios récords regionales esta temporada y aspira al título nacional en Zaragoza. Su entrenadora la define como la patinadora técnicamente más completa de su generación.',logros:['Campeona de España Estrella 2024 y 2025','Récord de Cataluña sub-20 en 500m','Convocada selección absoluta por primera vez','Número 1 ranking estrella femenina 2026']},
+  {id:'ps',nombre:'Paula Sanz',ini:'PS',gen:'f',cat:'estrella',club:'Club Patín Zaragoza',pais:'🇪🇸',pts:945,edad:20,ciudad:'Zaragoza',titulos:1,temporadas:3,bio:'Paula Sanz es compañera de club del élite Sergio Fernández y sigue sus pasos con paso firme. La zaragozana destaca por su potencia en las salidas y ha logrado su mejor temporada en 2026 con una constancia notable en todas las pruebas del circuito estrella.',logros:['Campeona de España Estrella 2025','3 podios Copa de España Estrella 2026','Récord de Aragón sub-21 1000m','Premio revelación RollerZone 2025']},
+  {id:'nr',nombre:'Nora Ruiz',ini:'NR',gen:'f',cat:'estrella',club:'Athletic Patinaje Bilbao',pais:'🇪🇸',pts:812,edad:21,ciudad:'Bilbao',titulos:0,temporadas:3,bio:'Nora Ruiz representa el futuro del patinaje vasco. La bilbaína ha mejorado notablemente su rendimiento en las pruebas de velocidad pura y compite habitualmente en los puestos de cabeza del pelotón estrella femenino.',logros:['Subcampeona de España Estrella 2025','Campeona del País Vasco sub-21 2024 y 2025','2 podios Copa de España Estrella 2026','Participante Campeonato de Europa Estrella 2025']},
+  {id:'dp',nombre:'Diego Palma',ini:'DP',gen:'m',cat:'estrella',club:'CD Velocidad Asturias',pais:'🇪🇸',pts:1034,edad:20,ciudad:'Gijón',titulos:1,temporadas:3,bio:'Diego Palma es el líder de la categoría estrella masculina y el gran favorito a subir a la élite la próxima temporada. El gijonés combina velocidad punta y gran capacidad de recuperación, cualidades que le han llevado a dominar el circuito estrella en 2026.',logros:['Campeón de España Estrella 2025','Líder ranking estrella masculino 2026','Récord de Asturias sub-21 500m','Preseleccionado selección nacional 2026']},
+  {id:'rb',nombre:'Raúl Blanco',ini:'RB',gen:'m',cat:'estrella',club:'CD Velocidad Madrid',pais:'🇪🇸',pts:878,edad:21,ciudad:'Madrid',titulos:0,temporadas:2,bio:'Raúl Blanco ha sido la gran sorpresa del circuito estrella masculino en 2026. El madrileño, en su segunda temporada en esta categoría, ha mejorado sus marcas personales en todas las distancias y apunta a pelear el título nacional.',logros:['Subcampeón de España Estrella 2025','3 victorias parciales Copa de España 2026','Mejor marca personal 300m TT en 2026','Nominado MVP estrella masculino RollerZone N°7']},
+  {id:'am',nombre:'Álvaro Martín',ini:'AM',gen:'m',cat:'estrella',club:'Club Patinaje Sevilla',pais:'🇪🇸',pts:743,edad:22,ciudad:'Sevilla',titulos:0,temporadas:2,bio:'Álvaro Martín es el referente del patinaje andaluz en la categoría estrella. El sevillano ha traído aire fresco al sur de España con resultados que demuestran que el talento no tiene fronteras geográficas dentro del circuito nacional.',logros:['Top 5 ranking estrella masculino 2025 y 2026','Campeón de Andalucía Estrella 2024 y 2025','2 podios Copa de España Estrella 2026','Embajador del patinaje en Andalucía']},
+
+  {id:'ms',nombre:'Marta Soto',ini:'MS',gen:'f',cat:'promesa',club:'CD Velocidad Asturias',pais:'🇪🇸',pts:780,edad:15,ciudad:'Avilés',titulos:2,temporadas:2,bio:'Marta Soto es la mayor promesa del patinaje femenino español en este momento. Con solo 15 años, la avilesina ya destaca en competiciones nacionales de categoría promesa y llama la atención de los técnicos de la selección nacional. Su progresión en los últimos dos años es extraordinaria.',logros:['Campeona de España Promesa 2024 y 2025','Récord nacional promesa femenino 500m','Convocada concentración selección sub-17','Premio mejor promesa RollerZone N°7']},
+  {id:'lg',nombre:'Laura Gil',ini:'LG',gen:'f',cat:'promesa',club:'Escola de Patinatge BCN',pais:'🇪🇸',pts:698,edad:16,ciudad:'Sabadell',titulos:1,temporadas:2,bio:'Laura Gil es una de las patinadoras más prometedoras de Cataluña. La sabadellenca compagina sus estudios con un régimen de entrenamiento muy exigente y ya ha demostrado su nivel en las principales pruebas nacionales de categoría promesa.',logros:['Campeona de Cataluña Promesa 2025','Subcampeona de España Promesa 2025','2 podios Copa de España Promesa 2026','Seleccionada concentración nacional sub-17']},
+  {id:'ev',nombre:'Elena Vidal',ini:'EV',gen:'f',cat:'promesa',club:'Athletic Patinaje Bilbao',pais:'🇪🇸',pts:614,edad:14,ciudad:'Barakaldo',titulos:0,temporadas:1,bio:'Elena Vidal, con tan solo 14 años, ya aparece en el top 3 del ranking promesa femenino en su primera temporada oficial. La barakaldesa es la patinadora más joven del ranking MVP y su progresión sorprende a todos los técnicos del circuito.',logros:['Top 3 ranking promesa femenino en su 1ª temporada','Campeona del País Vasco Promesa 2025','Récord de Bizkaia sub-15 300m','Talento destacado por RollerZone N°7']},
+  {id:'co',nombre:'Carlos Ortega',ini:'CO',gen:'m',cat:'promesa',club:'Club Patín Zaragoza',pais:'🇪🇸',pts:856,edad:16,ciudad:'Zaragoza',titulos:2,temporadas:2,bio:'Carlos Ortega sigue los pasos de su ídolo y compañero de club Sergio Fernández. El joven zaragozano ha dominado la categoría promesa masculina con autoridad en 2026 y aspira a repetir el salto que ya hizo Fernández: de campeón promesa a referente absoluto.',logros:['Campeón de España Promesa 2024 y 2025','Récord de Aragón promesa 500m y 1000m','Convocado selección sub-17 para Europa','Mejor promesa masculino RollerZone N°7']},
+  {id:'hm',nombre:'Hugo Medina',ini:'HM',gen:'m',cat:'promesa',club:'CD Velocidad Madrid',pais:'🇪🇸',pts:721,edad:15,ciudad:'Getafe',titulos:1,temporadas:2,bio:'Hugo Medina representa la cantera madrileña en su mejor momento. El getafeño, hijo de un ex patinador de élite, lleva el patinaje en la sangre y ha demostrado en sus primeras temporadas que está llamado a ser uno de los grandes del circuito nacional.',logros:['Campeón de la Comunidad de Madrid Promesa 2025','Subcampeón de España Promesa 2025','3 podios Copa de España Promesa 2026','Familia patinadora: sigue los pasos de su padre']},
+  {id:'pa',nombre:'Pablo Arenas',ini:'PA',gen:'m',cat:'promesa',club:'Club Patinaje Sevilla',pais:'🇪🇸',pts:589,edad:14,ciudad:'Málaga',titulos:0,temporadas:1,bio:'Pablo Arenas es la gran sorpresa del sur en la categoría promesa masculina. El malagueño, en su primera temporada oficial, ya ha dado muestras de un talento natural excepcional que ha llamado la atención de clubs de todo el país.',logros:['Top 5 ranking promesa masculino en 1ª temporada','Campeón de Andalucía Promesa 2025','Récord de Málaga sub-15 300m TT','Descubierto en el campeonato escolar regional 2024']},
+];
+
+const catColors={elite:{bg:'#f5a623',fg:'#1a1200'},estrella:{bg:'#534ab7',fg:'#fff'},promesa:{bg:'#1d9e75',fg:'#fff'}};
+const catLabels={elite:'Elite',estrella:'Estrella',promesa:'Promesa'};
+
+let selCat='todas',selGen='todos';
+
+function render(){
+  const wrap=document.getElementById('ranking-wrap');
+  const cats=selCat==='todas'?['elite','estrella','promesa']:[selCat];
+  const gens=selGen==='todos'?['f','m']:[selGen];
+  let html='';
+  cats.forEach(cat=>{
+    gens.forEach(gen=>{
+      const rows=DATA.filter(d=>d.cat===cat&&d.gen===gen).sort((a,b)=>b.pts-a.pts);
+      if(!rows.length)return;
+      const cc=catColors[cat];
+      const gLabel=gen==='f'?'Femenino':'Masculino';
+      const gBg=gen==='f'?'#993556':'#185fa5';
+      html+=`<div class="cat-block">
+        <div class="cat-header">
+          <span class="cat-badge" style="background:${cc.bg};color:${cc.fg}">${catLabels[cat]}</span>
+          <span class="cat-badge" style="background:${gBg};color:#fff">${gLabel}</span>
+          <span class="cat-title">${catLabels[cat]} — ${gLabel}</span>
+          <span class="cat-count">${rows.length} patinadores</span>
+        </div>
+        <div class="table-wrap">
+          <div class="t-row header" style="grid-template-columns:32px 36px 1fr 1fr 80px 50px">
+            <span>#</span><span></span><span>Patinador/a</span><span>Club</span><span style="text-align:right">Puntos</span><span>País</span>
+          </div>`;
+      rows.forEach((p,i)=>{
+        const rk=i===0?'rk1':i===1?'rk2':i===2?'rk3':'rkn';
+        const avClass=p.gen==='f'?'av-f':'av-m';
+        html+=`<div class="t-row" style="grid-template-columns:32px 36px 1fr 1fr 80px 50px" onclick="showDetail('${p.id}')">
+          <div><div class="rank-num ${rk}">${i+1}</div></div>
+          <div><div class="av ${avClass}">${p.ini}</div></div>
+          <div><div class="pname">${p.nombre}</div><div class="pclub">${p.ciudad}</div></div>
+          <div><div class="pclub">${p.club}</div></div>
+          <div class="pts-val">${p.pts}</div>
+          <div style="text-align:center;font-size:18px">${p.pais}</div>
+        </div>`;
+      });
+      html+=`</div></div>`;
+    });
+  });
+  if(!html)html=`<div class="empty">No hay patinadores con estos filtros.</div>`;
+  wrap.innerHTML=html;
+}
+
+function showDetail(id){
+  const p=DATA.find(d=>d.id===id);
+  if(!p)return;
+  document.getElementById('pg-list').classList.remove('on');
+  document.getElementById('pg-detail').classList.add('on');
+  document.getElementById('bc-name').textContent=p.nombre;
+  const cc=catColors[p.cat];
+  const gLabel=p.gen==='f'?'Femenino':'Masculino';
+  const gBg=p.gen==='f'?'#993556':'#185fa5';
+  const avClass=p.gen==='f'?'f':'m';
+  document.getElementById('detail-content').innerHTML=`
+    <div class="detail-hero"><div class="detail-hero-inner">
+      <span class="dtag" style="background:${cc.bg};color:${cc.fg}">${catLabels[p.cat]}</span>
+      <span class="dtag" style="background:${gBg};color:#fff;margin-left:6px">${gLabel}</span>
+      <h2>${p.nombre}</h2>
+      <div class="meta">${p.club} · ${p.ciudad}, España · Temporada 2026</div>
+    </div></div>
+    <div class="detail-body">
+      <div class="profile-card">
+        <div class="av-xl ${avClass}">${p.ini}</div>
+        <div class="profile-info">
+          <h3>${p.nombre}</h3>
+          <p>${p.club}</p>
+          <p>${p.ciudad}, España · ${p.edad} años</p>
+          <div class="ptags">
+            <span class="ptag" style="background:${cc.bg};color:${cc.fg}">${catLabels[p.cat]}</span>
+            <span class="ptag" style="background:${gBg};color:#fff">${gLabel}</span>
+            <span class="ptag ptag-club">${p.club}</span>
+          </div>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><span class="stat-val">${p.pts}</span><span class="stat-lbl">Puntos MVP 2026</span></div>
+        <div class="stat-box"><span class="stat-val">${p.edad}</span><span class="stat-lbl">Edad</span></div>
+        <div class="stat-box"><span class="stat-val">${p.titulos}</span><span class="stat-lbl">Títulos nacionales</span></div>
+        <div class="stat-box"><span class="stat-val">${p.temporadas}</span><span class="stat-lbl">Temporadas</span></div>
+      </div>
+      <div class="bio">
+        <h4>Biografía</h4>
+        <p>${p.bio}</p>
+      </div>
+      <div class="bio">
+        <h4>Palmarés y logros destacados</h4>
+        <ul class="logros-list">${p.logros.map(l=>`<li>${l}</li>`).join('')}</ul>
+      </div>
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+function goList(){
+  document.getElementById('pg-detail').classList.remove('on');
+  document.getElementById('pg-list').classList.add('on');
+  window.scrollTo(0,0);
+}
+
+document.getElementById('fg-cat').addEventListener('click',e=>{
+  const b=e.target.closest('button');
+  if(!b)return;
+  document.querySelectorAll('#fg-cat .fpill').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  selCat=b.dataset.cat;
+  render();
+});
+document.getElementById('fg-gen').addEventListener('click',e=>{
+  const b=e.target.closest('button');
+  if(!b)return;
+  document.querySelectorAll('#fg-gen .fpill').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  selGen=b.dataset.gen;
+  render();
+});
+
+render();
+</script>
