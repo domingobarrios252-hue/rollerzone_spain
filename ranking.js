@@ -545,3 +545,21 @@ const firebaseConfig = {
 // Inicializar
 const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+async function cargarRanking() {
+  const contenedor = document.getElementById("ranking-list");
+  contenedor.innerHTML = "";
+
+  const querySnapshot = await db.collection("ranking_mvp").get();
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+
+    contenedor.innerHTML += `
+      <div class="card">
+        <h3>${data.nombre}</h3>
+        <p>${data.club}</p>
+        <p>Puntos: ${data.puntos}</p>
+      </div>
+    `;
+  });
+}
